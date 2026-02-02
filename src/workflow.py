@@ -126,6 +126,8 @@ def rerank(question: str, chunks: List[dict], keep_top: int = 3):
     reranked = [chunk for _, chunk in sorted_pairs[:keep_top]]
     return reranked
 
+
+
 # --------------------------------------------------
 # TOOL: Agentic RAG Search with Hybrid + Cross-Encoder
 # --------------------------------------------------

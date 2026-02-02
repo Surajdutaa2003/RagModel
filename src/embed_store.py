@@ -4,7 +4,7 @@ import json
 import requests
 import numpy as np
 import faiss
-from dotenv import load_dotenv
+from dotenv import load_dotenv 
 from pathlib import Path
 from pypdf import PdfReader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -70,6 +70,8 @@ def chunk_text(
             "source": source,
             "chunk_id": i
         })
+        
+        
     
     return chunks, metas
 
