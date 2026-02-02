@@ -80,6 +80,7 @@ def chunk_text(
 # -----------------------------
 def get_embeddings(
     texts: list[str],
+    
     model: str = "jina-embeddings-v2-base-en"
 ):
     headers = {

@@ -133,6 +133,7 @@ def rerank(question: str, chunks: List[dict], keep_top: int = 3):
 # --------------------------------------------------
 @tool
 def rag_search(question: str) -> str:
+    
     """
     Hybrid search (vector + BM25), rerank with Cross-Encoder, return formatted context.
     """
