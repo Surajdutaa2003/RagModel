@@ -1,0 +1,20 @@
+Title: LangGraph Quick Notes
+
+LangGraph is used to build agent workflows with explicit state and graph-based orchestration.
+Key concepts:
+- State: a dictionary-like object shared across nodes.
+- Nodes: functions that read state and return partial updates.
+- Edges: define execution flow from node to node.
+- Conditional edges: routing decisions based on state.
+- Persistence / Checkpointer: saves state at each step for fault tolerance, resume, and time travel debugging.
+- Threads: separate conversation runs using thread_id.
+
+Why LangGraph:
+- easy loops and iterations
+- better control for multi-step agents
+- can combine multiple tools and decisions cleanly
+
+
+
+
+jina_5aebe460f01e4bf2a29a03ab0c5c7dcfdfi2wzedLPfRUKojXp8qkqKoR8NI

@@ -1,0 +1,13 @@
+Title: Diabetes ML Notes
+
+Diabetes prediction datasets often contain features like glucose level, BMI, age, pregnancies, insulin, and blood pressure.
+Model flow:
+1) Data cleaning
+2) Train-test split
+3) Model training (Logistic Regression / RandomForest / XGBoost)
+4) Evaluate using accuracy and ROC-AUC
+5) Predict probability using predict_proba
+
+Important:
+- Dataset may contain zero values for medical measures (glucose=0 etc), which can represent missing values.
+- Probability threshold usually 0.5 but can be tuned.

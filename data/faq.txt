@@ -1,0 +1,13 @@
+Title: FAQs
+
+Q: What is RAG?
+A: Retrieval-Augmented Generation. It retrieves relevant chunks from documents and then generates an answer.
+
+Q: Why embeddings?
+A: Embeddings convert text into vectors so we can search semantically.
+
+Q: What is a vector database?
+A: A storage system for embeddings that supports similarity search.
+
+Q: What is chunking?
+A: Splitting text into smaller pieces to store and retrieve efficiently.

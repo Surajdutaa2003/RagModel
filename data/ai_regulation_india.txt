@@ -1,0 +1,19 @@
+Title: AI Regulation in India (High-level Notes)
+
+India is working on AI governance through frameworks, advisory documents, and broader digital regulation efforts.
+Key themes include:
+1) Responsible AI: fairness, transparency, accountability, and explainability.
+2) Data privacy: how AI systems collect, process, and store user data.
+3) Risk-based governance: stricter rules for high-risk systems (healthcare, finance, public services).
+4) Deepfakes and misinformation: proposals often discuss labeling, detection, and penalties.
+5) Public sector adoption: AI in healthcare, agriculture, and education needs safety and reliability.
+
+Common challenges:
+- Fast tech growth vs slow legal changes
+- Bias and discrimination risks
+- Lack of high-quality public datasets
+- Compute cost and infrastructure gaps
+- Skill gap in AI governance
+
+Conclusion:
+India’s AI regulation is evolving, focusing on safety + innovation balance.
