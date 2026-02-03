@@ -9,22 +9,39 @@ Agentic RAG Workflow with:
 import os
 import json
 from pathlib import Path
-from typing import TypedDict, List, Annotated
+from typing import TypedDict, List, Annotated, Optional
 
 import numpy as np
 import faiss
 from dotenv import load_dotenv
 
-from langchain_core.messages import BaseMessage, HumanMessage, SystemMessage, AIMessage, Document
+from langchain_core.messages import BaseMessage, HumanMessage, SystemMessage, AIMessage
+from langchain_core.documents import Document
 from langchain_core.tools import tool
 from langchain_openai import AzureChatOpenAI
 from langchain_community.embeddings import JinaEmbeddings
-from langchain.retrievers import BM25Retriever, EnsembleRetriever
+from langchain_community.retrievers.bm25 import BM25Retriever
+from langchain_core.retrievers import BaseRetriever
+try:
+    # Newer langchain package
+    from langchain.retrievers import EnsembleRetriever
+except Exception:
+    try:
+        # Older "classic" split
+        from langchain_classic.retrievers import EnsembleRetriever
+    except Exception:
+        # If only langchain-community is installed
+        from langchain_community.retrievers import EnsembleRetriever
 
 from langgraph.graph import StateGraph, START, END
 from langgraph.graph.message import add_messages
 from langgraph.prebuilt import ToolNode
-from sentence_transformers import CrossEncoder
+try:
+    from sentence_transformers import CrossEncoder
+    # Cross-Encoder for reranking (fast & accurate)
+    cross_encoder = CrossEncoder('cross-encoder/ms-marco-MiniLM-L-6-v2')
+except Exception:
+    cross_encoder = None
 
 # --------------------------------------------------
 # Load env
@@ -54,8 +71,6 @@ embeddings = JinaEmbeddings(
     model_name="jina-embeddings-v2-base-en",
 )
 
-# Cross-Encoder for reranking (fast & accurate)
-cross_encoder = CrossEncoder('cross-encoder/ms-marco-MiniLM-L-6-v2')
 
 # --------------------------------------------------
 # Load Vector Store
@@ -91,35 +106,51 @@ def retrieve(question: str, top_k: int = 10):
 # --------------------------------------------------
 # Hybrid Retrieval (Vector + BM25)
 # --------------------------------------------------
-class FAISSRetriever:
-    def get_relevant_documents(self, query: str):
+class FAISSRetriever(BaseRetriever):
+    def _get_relevant_documents(self, query: str):
         results = retrieve(query, top_k=10)
         return [Document(page_content=r["text"], metadata=r) for r in results]
 
 def get_hybrid_retriever():
     vector_ret = FAISSRetriever()
 
-    bm25_ret = BM25Retriever.from_texts(
-        texts=CHUNKS,
-        metadatas=METAS
-    )
-    bm25_ret.k = 10
+    try:
+        bm25_ret = BM25Retriever.from_texts(
+            texts=CHUNKS,
+            metadatas=METAS
+        )
+        bm25_ret.k = 10
 
-    hybrid_ret = EnsembleRetriever(
-        retrievers=[vector_ret, bm25_ret],
-        weights=[0.4, 0.6]  # 40% vector, 60% keyword - tune as needed
-    )
-    return hybrid_ret
+        hybrid_ret = EnsembleRetriever(
+            retrievers=[vector_ret, bm25_ret],
+            weights=[0.4, 0.6]  # 40% vector, 60% keyword - tune as needed
+        )
+        print("✅ BM25 Hybrid Retriever initialized successfully (Vector 40% + BM25 60%)")
+        return hybrid_ret
+    except Exception as e:
+        # BM25 (rank_bm25) not available – fall back to vector-only retriever
+        print(f"⚠️ BM25 not available; using vector-only retriever (install 'rank_bm25' to enable BM25).")
+        print(f"   Error: {e}")
+        return vector_ret
 
 # --------------------------------------------------
-# Re-ranking with Cross-Encoder
+# Re-ranking with Cross-Encoder (or embeddings fallback)
 # --------------------------------------------------
 def rerank(question: str, chunks: List[dict], keep_top: int = 3):
     if not chunks:
         return []
 
-    pairs = [[question, c["text"]] for c in chunks]
-    scores = cross_encoder.predict(pairs)
+    if cross_encoder is not None:
+        pairs = [[question, c["text"]] for c in chunks]
+        scores = cross_encoder.predict(pairs)
+    else:
+        # Fallback: use embedding cosine similarity between question and each chunk
+        q_emb = np.array(embeddings.embed_query(question)).astype("float32")
+        docs_emb = np.array(embeddings.embed_documents([c["text"] for c in chunks])).astype("float32")
+        # normalize
+        q_norm = q_emb / (np.linalg.norm(q_emb) + 1e-12)
+        d_norm = docs_emb / (np.linalg.norm(docs_emb, axis=1, keepdims=True) + 1e-12)
+        scores = (d_norm @ q_norm).tolist()
 
     # Sort by score descending
     sorted_pairs = sorted(zip(scores, chunks), key=lambda x: x[0], reverse=True)
@@ -138,7 +169,7 @@ def rag_search(question: str) -> str:
     Hybrid search (vector + BM25), rerank with Cross-Encoder, return formatted context.
     """
     hybrid_retriever = get_hybrid_retriever()
-    docs = hybrid_retriever.get_relevant_documents(question)
+    docs = hybrid_retriever.invoke(question)
 
     chunks = [
         {
@@ -183,6 +214,7 @@ def agent_node(state: AgentState) -> dict:
     llm_with_tools = llm.bind_tools([rag_search])
 
     response: AIMessage = llm_with_tools.invoke(state["messages"])
+    response = _normalize_tool_call(response)
     return {"messages": [response]}
 
 # --------------------------------------------------
@@ -193,6 +225,37 @@ def should_continue(state: AgentState) -> str:
     if isinstance(last_message, AIMessage) and last_message.tool_calls:
         return "tools"
     return END
+
+# --------------------------------------------------
+# Fallback: parse printed tool call JSON (if model doesn't emit tool_calls)
+# --------------------------------------------------
+def _normalize_tool_call(message: AIMessage) -> AIMessage:
+    if message.tool_calls:
+        return message
+
+    content = (message.content or "").strip()
+    if not content.startswith("{"):
+        return message
+
+    first_line = content.splitlines()[0].strip()
+    try:
+        data = json.loads(first_line)
+    except Exception:
+        return message
+
+    name = data.get("name")
+    args = data.get("arguments")
+    if name in ("rag_search", "functions.rag_search") and isinstance(args, dict):
+        tool_call = {
+            "name": "rag_search",
+            "args": args,
+            "id": "manual-rag-search",
+            "type": "tool_call",
+        }
+        # Replace content to avoid the model's placeholder answer
+        return AIMessage(content="", tool_calls=[tool_call])
+
+    return message
 
 # --------------------------------------------------
 # Build Graph
