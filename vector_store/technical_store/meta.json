@@ -1,0 +1,1306 @@
+{
+  "chunks": [
+    "Title: AI Regulation in India (High-level Notes)",
+    "India is working on AI governance through frameworks, advisory documents, and broader digital regulation efforts.\nKey themes include:\n1) Responsible AI: fairness, transparency, accountability, and explainability.\n2) Data privacy: how AI systems collect, process, and store user data.\n3) Risk-based governance: stricter rules for high-risk systems (healthcare, finance, public services).\n4) Deepfakes and misinformation: proposals often discuss labeling, detection, and penalties.",
+    "4) Deepfakes and misinformation: proposals often discuss labeling, detection, and penalties.\n5) Public sector adoption: AI in healthcare, agriculture, and education needs safety and reliability.",
+    "Common challenges:\n- Fast tech growth vs slow legal changes\n- Bias and discrimination risks\n- Lack of high-quality public datasets\n- Compute cost and infrastructure gaps\n- Skill gap in AI governance\n\nConclusion:\nIndia’s AI regulation is evolving, focusing on safety + innovation balance.",
+    "Title: LangGraph Quick Notes",
+    "LangGraph is used to build agent workflows with explicit state and graph-based orchestration.\nKey concepts:\n- State: a dictionary-like object shared across nodes.\n- Nodes: functions that read state and return partial updates.\n- Edges: define execution flow from node to node.\n- Conditional edges: routing decisions based on state.\n- Persistence / Checkpointer: saves state at each step for fault tolerance, resume, and time travel debugging.\n- Threads: separate conversation runs using thread_id.",
+    "Why LangGraph:\n- easy loops and iterations\n- better control for multi-step agents\n- can combine multiple tools and decisions cleanly\n\n\n\n\njina_5aebe460f01e4bf2a29a03ab0c5c7dcfdfi2wzedLPfRUKojXp8qkqKoR8NI",
+    "Title: Diabetes ML Notes\n\nDiabetes prediction datasets often contain features like glucose level, BMI, age, pregnancies, insulin, and blood pressure.\nModel flow:\n1) Data cleaning\n2) Train-test split\n3) Model training (Logistic Regression / RandomForest / XGBoost)\n4) Evaluate using accuracy and ROC-AUC\n5) Predict probability using predict_proba",
+    "Important:\n- Dataset may contain zero values for medical measures (glucose=0 etc), which can represent missing values.\n- Probability threshold usually 0.5 but can be tuned.",
+    "Agentic AI\nThe Next Frontier in Innovation\nand Safety in Energy and Utilities \nPOV\nTable of Contents\nIntroduction\nWhy is Agentic AI a Natural Fit?\nPotential Application Areas in Energy\nPotential application areas in the power and utilities sector\nChallenges and the Way Forward\nUse Cases\nConclusion\nReferences\nAuthor’s Bio\n01\n02\n03\n04\n05\n06\n07\n08\n09\n03\n04\n06\n07\n08\n09\n12\n12\n13\n©L TIMindtree | Privileged and Confidential\nIntroduction",
+    "05\n06\n07\n08\n09\n03\n04\n06\n07\n08\n09\n12\n12\n13\n©L TIMindtree | Privileged and Confidential\nIntroduction\nImagine it’s 2030. A Category 4 hurricane barrels toward the US Gulf Coast. As evacuation orders are issued, an \nautonomous AI agent embedded within the regional energy grid springs into action. It reroutes power from oﬀshore \nwind farms to inland hospitals, optimizes battery storage across microgrids, and dispatches drones to inspect",
+    "vulnerable substations—all without a single human command. This isn’t science fiction. It’s the emerging reality \nof AI in energy and utilities, powered by Agentic AI.\nWhile Generative AI has captured headlines for its ability to create content, make predictions, and answer questions, \nits capabilities often stop short of execution. Agentic AI bridges this gap. These intelligent systems act \nindependently, set goals, and dynamically adapt to complex environments. Unlike traditional rule-based",
+    "automation, Agentic AI is proactive, context-aware, and capable of multi-step reasoning.\nAccording to Gartner, by 2028, 33% of enterprise applications will incorporate Agentic AI, with 15% of \nday-to-day decisions made autonomously. This shift marks a turning point for industries—especially energy and \nutilities—where the stakes are high and the need for innovation is urgent.\nAs the sector faces mounting pressure to reduce emissions, enhance safety, and improve operational eﬀiciency,",
+    "AI for energy innovation is no longer optional—it’s essential. Agentic AI oﬀers a transformative approach, \nenabling autonomous operations that continuously learn from their environment and optimize outcomes in \nreal-time.\nThis point of view explores how Agentic AI is a technological upgrade and strategic imperative for energy \ncompanies navigating the dual challenges of decarbonization and digital transformation. Through real-world",
+    "use cases, it illustrates how autonomous AI agents are evolving from tools to digital collaborators—helping energy \nand utility companies transition to a smarter, safer, and more sustainable future.\n3©L TIMindtree | Privileged and Confidential\nWhy is Agentic AI a natural fit?\nLet us consider some factors that make the adoption of Agentic AI compelling for energy and utility companies. \nEnergy companies generate vast datasets (e.g., seismic imaging, IoT",
+    "Energy companies generate vast datasets (e.g., seismic imaging, IoT \nsensors data, Supervisory Control and Data Acquisition systems) that can \nbe leveraged to train AI models and generate actionable insights. \nVast and complex data repository01\nThe energy market faces price volatility (e.g., oil price swings) and high \ncapital costs related to exploration and drilling. AI agents can reduce such \ncosts and suggest hedging strategies based on the demand-supply pattern.",
+    "costs and suggest hedging strategies based on the demand-supply pattern.\nCost and margin improvements\n02\nMany energy facilities operate with ageing assets and a retiring \nworkforce. AI agents can play a crucial role in preventing equipment \nfailure and extending the operational life of such assets.  Agentic AI can \nalso augment the retiring workforce, filling any knowledge and skill gaps. \nAgeing infrastructure and workforce03",
+    "Ageing infrastructure and workforce03\nGovernments are imposing stricter emission and safety regulations for \nenergy companies. AI agents can help with real-time monitoring and safety \naudit reporting activities.\nStrict regulatory compliance\n04\n4   ©L TIMindtree | Privileged and Confidential\nEnergy supply chains are vulnerable to geopolitical tensions and \ndisruptions. AI models can forecast disruptions, optimize logistics,\nand ensure business continuity.\nGeopolitical and supply chain risks05",
+    "and ensure business continuity.\nGeopolitical and supply chain risks05\nAs energy companies embark on their sustainability journey, AI agents \ncan directly contribute to decarbonization by streamlining energy usage \nand reducing waste.\nSustainability goals\n06\n5   ©L TIMindtree | Privileged and Confidential\nPotential application areas in energy \nLet us look at potential application areas in the energy industry where Agentic AI can be transformative.",
+    "Geospatial exploration agents can analyze vast seismic datasets and suggest optimal drilling\nlocations based on probability, risk, and cost. This reduces the time-to-discovery and exploration costs \nfor energy companies.\nExploration and seismic analysis\nAutonomous drilling agents can monitor and adjust drill bit parameters in real-time using sensor data, \nthus reducing the Non-productive Time (NPT) and improving safety. \nDrilling operations",
+    "thus reducing the Non-productive Time (NPT) and improving safety. \nDrilling operations\nThese agents can monitor hydrate formation, scaling, and wax deposition in wells and manage \nproduction flow rates using reservoir simulation data, resulting in better hydrocarbon recovery. \nProduction optimization\nAI agents can use route optimization and predictive scheduling algorithms to eﬀiciently forecast \ndemand and schedule transportation. They can also analyze sensor and drone data used to monitor",
+    "demand and schedule transportation. They can also analyze sensor and drone data used to monitor \npipeline conditions and detect anomalies such as leaks and corrosion.  \nMidstream operations\nAgentic AI enables demand-driven production planning in refineries and optimizes blending processes\nto meet product specs like octane rating and sulfur content. Selecting optimal feed stock and reducing \ncostly additives balances quality and cost. Agentic AI also supports market segmentation analysis to",
+    "align products with regional demand. This showcases the potential of AI for energy innovation in\nrefining operations.\nDownstream intelligence\n6©L TIMindtree | Privileged and Confidential\nAgentic AI is revolutionizing smart grids through dynamic \nload balancing and preventing grid failure. AI agents can \nmonitor grid health, anticipate outages, and redirect \npower flows before disruptions occur. \nAutonomous grid management\nWith the rise of renewable energy, eﬀicient energy storage is",
+    "Autonomous grid management\nWith the rise of renewable energy, eﬀicient energy storage is \nbecoming increasingly essential. AI agents can decide when to charge \n/ discharge batteries based on market prices, demand forecasts, and \ngrid conditions. Agents can also prevent overuse and degradation of \nenergy storage systems, extending the battery lifespan. \nEnergy storage and battery optimization\nUnpredictability is a significant challenge for energy generation from",
+    "Unpredictability is a significant challenge for energy generation from \nrenewable resources such as solar, wind, and hydropower. Agentic AI \ncan address this issue through intelligent forecasting using live \nsatellite data, atmospheric conditions, and historical trends. \nRenewable energy generation forecasting\nGrid \nManagement & \nOptimization\nCustomer Experience \n& Demand\nResponse\nCybersecurity & \nThreat\nDetection\nRenewable \nIntegration\nAsset\nPerformance \nManagement\nEnergy \nStorage & \nDispatch",
+    "Threat\nDetection\nRenewable \nIntegration\nAsset\nPerformance \nManagement\nEnergy \nStorage & \nDispatch\nPotential Application Areas of Agentic AI Across Utilities Value Chain\nPotential application areas in the power\nand utilities sector\nAgentic AI application areas across the utilities value chain\n7©L TIMindtree | Privileged and Confidential\nChallenges and the way forward\nWhile implementing Agentic AI has immense potential for the energy and utility industry, it comes with its\nown challenges.",
+    "own challenges.\nThe energy and utility industry is highly regulated. Autonomous decision-making by AI agents must \nalign with evolving regulations, which may vary by region and jurisdiction.\nRegulatory and compliance\n01\nAs AI agents take control of critical energy infrastructure, safeguarding against potential cyberattacks is \nof utmost importance. Secure data exchange is necessary to prevent unauthorized control of assets and \nprotect customer privacy.\nCybersecurity and privacy\n02",
+    "protect customer privacy.\nCybersecurity and privacy\n02\nImplementing Agentic AI involves a high initial investment in building infrastructure and training \nmodels. Demonstrating ROI and long-term value can be challenging initially. \nEconomic constraints\n03\nIncorporating AI agents in day-to-day operations may face resistance from the workforce. This may \nrequire training and AI literacy for the existing staﬀ. Also, Agentic AI systems must oﬀer transparent",
+    "reasoning and audit trails to gain stakeholder (e.g., operators, regulators) confidence.\nWorkforce readiness and trust\n04\nSince Agentic AI involves high-stakes energy decisions, it is imperative to create governance frameworks \nfor trust, compliance, and accountability.  Clear protocols for human-in-the-loop decision-making must \nbe established to prevent autonomous overreach.\nGovernance and accountability\n05\n8©L TIMindtree | Privileged and Confidential\nUse cases",
+    "Governance and accountability\n05\n8©L TIMindtree | Privileged and Confidential\nUse cases\nConsider a use case from a Norway-based provider of AI, machine learning, and predictive analytics solutions for the \nenergy industry, which delivers intelligent drilling support and optimization capabilities. The company has built \nthree Agentic AI models or ‘AI-powered engineers’ to support the oil and gas drilling process – an AI-powered drilling",
+    "engineer; an AI-powered well design and planning engineer, and an Agentic AI-powered data management engineer \nthat automates data exchange between diﬀerent software, unifies and interconnects all data needed, and \nconsolidates multiple workflows. In addition to managing data integration and reporting, one AI agent is \nresponsible for generating documentation and analytical summaries. When deployed together, these intelligent",
+    "agents collaborate seamlessly—one designs and simulates well plans, another oversees real-time drilling \noperations with autonomous decision support, and a third ensures smooth data exchange across platforms while \nautomating reporting workflows. This setup also enables the creation of daily drilling reports using agentic AI \ncapabilities. The use case illustrates how agentic AI can transform the oil and gas value chain—from exploration and",
+    "production to refining and distribution—by enhancing eﬀiciency, decision-making, and data-driven operations.\nUpstream drilling automation\nAI-Powered Drilling Engineer\nManages real-time drilling operations\nwith autonomous decision support\nAI-Powered Well Design and \nPlanning Engineer\nDesigns and simulates the well plan\nAI-Powered Data\nManagement Engineer \nEnsures seamless data integration \nand automated reporting\nAI Agents in Oil & Gas drilling application",
+    "and automated reporting\nAI Agents in Oil & Gas drilling application\n9   ©L TIMindtree | Privileged and Confidential\nA compelling example of Agentic AI in action comes from AES, a US-based energy company. AES places safety at the \ncore of its operations, conducting over 1,500 management program audits annually—both internal and external. \nEach audit traditionally required around 100 employee hours, involving meticulous document reviews and accuracy",
+    "checks. To streamline this labor-intensive process, AES deployed Agentic AI models, selecting Anthropic’s Claude on \nVertex AI for its robust multi-language capabilities and advanced document analysis. After executing more than 50 \nagent-led audits, the results were transformative: audit costs dropped by 99%, accuracy increased by 10–20%, and \nthe turnaround time improved by 99.7%.  \nThis case study exemplifies how AI enhances operational eﬀiciency in energy and utilities and redefines safety",
+    "standards. By automating complex, repetitive tasks, Agentic AI empowers energy companies to focus on strategic \npriorities while ensuring compliance and reliability. \nEnergy audit transformation\nWhile Agentic AI implementation has many challenges, the key is to formulate a clear implementation strategy. \nEnergy and Utility is a safety-critical industry where delegating critical functions to autonomous AI agents is a very",
+    "challenging task. AI agents act fast and at scale. They don’t stop to reflect like a human unless such checks are \nin-built in the design. One small logic flaw or error in design can ripple across systems, resulting in real-world \ncatastrophic events such as oil spillage or grid failure. With the latest AI models, such errors can be minimized but \nthat comes at a higher cost. The tradeoﬀ between the cost and accuracy is something that Energy and Utilities",
+    "companies need to consider at the preliminary stages of charting their AI roadmap. Another consideration should be \nidentifying the right use case for implementing Agentic AI. Identifying low risk use cases to start with would be a \ngood approach. \nCharting the AI roadmap\n10   ©L TIMindtree | Privileged and Confidential\nUtility companies can initiate their AI journeys with use cases such as Autonomous Customer Billing, which can be a",
+    "quick gain. While AI agents can help automate billing cycles and detect anomalies in customer bills, this use case can \nimprove operational eﬀiciency without impacting critical infrastructure. \nAs a next step towards AI adoption, energy and utility companies can identify low-risk, high-value use cases such as \npredictive maintenance in oil and gas drilling. AI agents can generate predictive insights based on sensor data from",
+    "drilling equipment, which can help prevent unplanned equipment failure. Such cases can add significant value to \norganizations, especially in reducing downtime and improving safety for drilling operations.   \nAt the final stage, companies should target strategic use cases that can transform their business operations. \nAutonomous drilling agents are a good example. AI agents can manage real-time drilling operations, continuously",
+    "learn from sensor data, and adjust drilling parameters to optimize performance and safety. Such cases involve a \nparadigm shift in upstream oil and gas operations. It can move the industry from reactive, human-led processes to \nproactive, AI-orchestrated execution, unlocking new levels of performance, safety, and sustainability.\nSmart Bet\nQuick Gain\nEﬀort Trap\nStrategic Leap\nLow High\nHighLow \nRisk\nValue Addition\nPredictive\nMaintenance in\nOil & Gas drilling\nAutonomous\nCustomer Billing by",
+    "Risk\nValue Addition\nPredictive\nMaintenance in\nOil & Gas drilling\nAutonomous\nCustomer Billing by\nUtility companies\nAutonomous Drilling Agents\nfor real time drilling\noperations management\nAgentic AI Implementation Framework in Energy & Utilities\nAgentic AI application areas across the oil and gas value chain\n11©L TIMindtree | Privileged and Confidential\nConclusion\nAgentic AI is poised to become the backbone of the digital transformation in the energy industry. As AI models evolve",
+    "to be more autonomous, adaptive, and trustworthy, energy companies must embrace a phased adoption \napproach—starting with low-risk use cases and scaling toward strategic leaps. The real race isn’t just about building \nstandalone AI agents but integrating them seamlessly into complex legacy systems. Companies that act now will \nseize the first-mover advantage, shape industry standards, and win the race toward intelligent, resilient, and \nsustainable energy operations.",
+    "sustainable energy operations.\n12©L TIMindtree | Privileged and Confidential\nReferences\nhttps://convergetp.com/2025/05/06/top-10-agentic-ai-examples-and-use-cases/\nConverge Technology Solutions. 2025. “Top 10 Agentic AI Examples and Use Cases.” Converge Technology Solutions, May 6\nhttps://community.nasscom.in/communities/emerging-tech/generative-versus-agentic-ai-tale-two-approaches\nNASSCOM Community. 2025. “Generative Versus Agentic AI: A Tale of Two Approaches.” NASSCOM",
+    "NASSCOM Community. 2025. “Generative Versus Agentic AI: A Tale of Two Approaches.” NASSCOM\nhttps://www.gartner.com/en/articles/intelligent-agent-in-ai \nGartner. 2025. “Intelligent Agent in AI.” Gartner\nhttps://www.business-standard.com/content/specials/agentic-ai-is-the-new-electricity-how-agentic-ai-is-shaping-the-future-12503\n1800440_1.html \nBusiness Standard. 2025. “Agentic AI Is the New Electricity: How Agentic AI Is Shaping the Future.” Business Standard, March 18, 2025",
+    "https://www.exlservice.com/insights/article/expanding-the-power-agentic-ai-the-energy-industry \nEXL Service. 2025. “Expanding the Power of Agentic AI in the Energy Industry.” EXL Insights\nhttps://www.rigzone.com/news/what_are_the_latest_ai_developments_oil_and_gas_needs_to_be_aware_of-28-apr-2025-180359-article/\nRigzone. 2025. “What Are the Latest AI Developments Oil and Gas Needs to Be Aware Of?” Rigzone, April 28, 2025\nhttps://cloud.google.com/customers/aes?hl=en",
+    "https://cloud.google.com/customers/aes?hl=en\nGoogle Cloud. 2025. “AES: Energy Audit Transformation.” Google Cloud Customers\n13©L TIMindtree | Privileged and Confidential\nAuthor’s bio\nAyan is a seasoned leader in consulting, business analysis, and program \nmanagement with over 12 years of experience in the energy and utilities \nsector. He currently drives digital transformation for global energy clients \nthrough data and AI-led solutions. His expertise spans strategic program",
+    "through data and AI-led solutions. His expertise spans strategic program \ndelivery, stakeholder engagement, and technology enablement. Ayan \nholds an MBA from IIM Bangalore and is passionate about leveraging \ninnovation to create sustainable business impact.\nAyan Mukherjee \nSenior Manager - Program & Project Management\nLTIMindtree is a global technology consulting and digital solutions company that enables enterprises across industries to reimagine",
+    "business models, accelerate innovation, and maximize growth by harnessing digital technologies. As a digital transformation partner to \nmore than 700 clients, LTIMindtree brings extensive domain and technology expertise to help drive superior competitive diﬀerentiation, \ncustomer experiences, and business outcomes in a converging world. Powered by 83,000+ talented and entrepreneurial professionals",
+    "across more than 40 countries, LTIMindtree — a Larsen & Toubro Group company — solves the most complex business challenges and \ndelivers transformation at scale. For more information, please visit https://www.ltimindtree.com/",
+    "Landscape Basics Applications Responsible AI Readiness\nGenerative AI will reshape every industry. But when?\nHow we arrived here, \nwhere we may be \nheaded and meeting \nthe natives\nThe strengths, \nweaknesses and \nunknowns of the \ntechnology\nKnown and \nexpected use -cases \nof gen AI in \nenterprise \nenvironments\nDeploying gen AI \nsolutions in a \nresponsible and \neffective way\nPractical guidance \nfor adapting and \nleading in a gen AI \nworld\nCarousal Starts\nCarousal Ends",
+    "Practical guidance \nfor adapting and \nleading in a gen AI \nworld\nCarousal Starts\nCarousal Ends\nThere’s little question that gen AI has captivated business interest since ChatGPT launched at the end of 2022. Interest has only \ngrown since that announcement and we believe it will transform organizations through new levels of human-machine \ncollaboration. Throughout this guide you’ll find statistics, predictions and perspectives to spur thinking on how to pragmatically",
+    "apply this technology to innovate.\nThe sense of urgency is understandable given rapid advancements. However, while most companies have actively explored gen \nAI’s potential through proofs of concept and early-stage experimentation this past year, Cognizant research shows that many \nleaders (30%) believe meaningful impact is still years away.\nFor most executives we engage, the question is not “if” but “how and when” gen AI will transform their business models and",
+    "operations. Many are now looking to scale early successes through broader initiatives. Our own research and client \nconversations this past year reveal enthusiastic curiosity tempered by thoughtful diligence around these emerging capabilities. \nAs enterprises look to transition experiments into scaled production-grade solutions, understandable caution accompanies the \nexcitement.",
+    "excitement.\nStill, through skills-building and laying responsible foundations in 2023, companies equipped themselves for the next stage of \nmaturity in leveraging AI’s generative potential. 2024 is the year to accelerate AI impact through focus and investment. The rules \nof engagement continue to rapidly evolve as practical experience refines our thinking on the possible. By working together, we",
+    "can apply this technology practically and responsibly to increase productivity and deliver superior human-centric experiences.\nLet’s shape the future together with care, creativity and purpose.\nHow we arrived here\nAn innovation boom 75 years in the making\nIn the summer of 2022—well before Open AI’s ChatGPT exploded into the public \ndiscourse—gen AI began generating media buzz when a recently-fired Google \nEngineer claimed1 their LaMDA model might be sentient.",
+    "Engineer claimed1 their LaMDA model might be sentient.\nTrue or not, this wasn’t an entirely surprising claim for artificial intelligence. \nWe’ve been expecting this.\nSince Alan Turing’s 1950 “Imitation Game” (Turing Test) proposal, we’ve imagined \na future of computers with human-like intelligence, personality and autonomy. \nToday, we seem to be accelerating towards that disruptive future.\nIf and when we reach sentient AI is anybody’s guess but gen AI presents a",
+    "If and when we reach sentient AI is anybody’s guess but gen AI presents a \nsignificant new milestone in this journey, sparking new interest, innovation and \ndiscourse. Here’s how we arrived at this moment.\n“Generative AI sits \nwithin the context of \ndecades of research \ninto AI. We are now \nentering the era where \nthis technology will start \nto fundamentally \ntransform businesses.”\nIn the early days of modern \ncomputing, the Turing Test \nand the famed 1956 \nDartmouth Workshop launch",
+    "computing, the Turing Test \nand the famed 1956 \nDartmouth Workshop launch \nthe era of AI. The first AI \nprograms form and optimism \nis high.\nWhile progressive advances \nlike expert systems proliferate \nand cultural interest in AI \ngrows, underwhelming results \nlead to two periods of \nreduced funding and focus.\nWith the internet and \naccelerated business \ndigitization, data availability \nand IT funding expand to \ndrive practical AI applications. \nMajor advances in robotics",
+    "and IT funding expand to \ndrive practical AI applications. \nMajor advances in robotics \nand data-driven solutions.\nSignificant breakthroughs in \nneural network and \ngenerative AI model \ndevelopment, accomplishing \npreviously impossible tasks, \nalongside surge in big-tech \ninvestment. As of Q1 2024, the \nCrunchbase AI startup list has \ngrown to nearly 10,000 \ncompanies .\nIncreasing context \nwindows are critical for \nmany enterprise use-\ncases and will allow for \nlarger, more",
+    "windows are critical for \nmany enterprise use-\ncases and will allow for \nlarger, more \ncomprehensive prompts \nto be passed to models. \nThis new access to vast \ncontextual datasets will \nopen even more doors \nfor AI.\nNext-gen models are \nalready in development, \nincluding open-source \nmodels with more \nflexibility and control. \nExpect acceleration of \nnew entrants and \ninnovation. Enterprise \nplatforms are adding AI \ntooling that will drive \nfurther proliferation.\nWorld governments",
+    "platforms are adding AI \ntooling that will drive \nfurther proliferation.\nWorld governments \nwill adopt and adapt \nregulations at lagging \npace as they address \nrapidly evolving \nethical, economic and \nsocietal concerns. \nOrganizations will \nformalize AI \ngovernance roles with \nvariable risk tolerance \nfor use cases.\nWith significant \nadvancement in \nAR/VR technology \nspearheaded by Meta, \nApple and Microsoft, \ncompelling new \napplications backed \nby gen AI will launch. \nWith conversational",
+    "compelling new \napplications backed \nby gen AI will launch. \nWith conversational \nuser interfaces (i.e., \nchat, voice), new visual \nworlds will be seen.\nAs 30% of work \nhours4 are expected \nto be directly \nimpacted by AI and \nresulting automation \ncapabilities, \nproductivity gains \nwill be felt by all. The \nwar for technology \ntalent will be \nreshaped as a war \nfor technology \ninnovation as \norganizations \ndifferentiate with \ndata.\nMeeting the AI natives",
+    "for technology \ninnovation as \norganizations \ndifferentiate with \ndata.\nMeeting the AI natives\nOperating effectively in the era of generative AI requires a reconstruction of the now decades-old digital maturity narrative. \nWe’re entering a post-digital era where every enterprise is digital and what defines leaders is their adaptability—which extends \nto their definition of maturity, how they operate and what they sell.",
+    "to their definition of maturity, how they operate and what they sell.\nThe gen AI era is one of continuous, perpetual change. The fundamental definition of computation and chip design is changing \nwith AI as rigid, linear and exact computations are swapped for the abstract and inexact logic that underpins neural network \nthinking. Companies must now operate in similar ways.",
+    "thinking. Companies must now operate in similar ways.\nAs noted in our gen AI timeline, there has been an explosion of AI-centric startups born over the past two years—these might be \ndefined as AI natives. These companies focus on AI and, presumably, they have AI built into their operations and culture as well \nas their product.\nBut just as our definition of digital maturity requires a ‘continuous change’ perspective, so too will our definition of the “AI-native \ncompany”.",
+    "company”.\nBeing “born into” the gen AI era is far less important than exploration and adoption. Those organizations who pioneer AI—and \nset the rules early to gain competitive market share from it—will establish what it means to be an AI native. Enterprise \norganizations, with their robust proprietary data to build upon, have the advantage.\n Modern operations and architecture: Delivery and IT infrastructures that leverage data and accelerate change•",
+    "Enabled AI culture: Definitive policies and governance with access and training for staff to benefit from AI•  \nA focus on disruptive propositions: Already piloting AI experiences to hedge against new entrant threats•  \nEngaging suppliers to evolve services: Addressing gen AI opportunities for mutual benefit•  \nSimplifying not complexifying: See gen AI as a way to transform value creation vs. ”just new tech”•",
+    "Gen AI assistants being used in legal software to augment services and accelerate work\n•  \nEntertainment and creative studios using gen AI to create animation sequences, social reels and more\n•  \nAggregating customer feedback (reviews, call transcripts, etc.) for gen AI-driven insights\n•  \nGen AI using component libraries, design systems and code bases to build POC software “ondemand”\n•  \nTransforming the classic chat-bot, gen AI powering conversational agents to answer and explain\n•",
+    "Transforming the classic chat-bot, gen AI powering conversational agents to answer and explain\n•  \n1950s – 60s\nThe birth of AI\n1970s – Mid-90s\nThe two AI winters\nMid-90s – 2000s\nThe rise of machine learning\n2010s - Present\nThe Advent of Deep Learning\n1\nA much larger context \nwindow\n2\nNew gen AI models, \nexpanded AI features in \nenterprise software\n3\nWaves of regulation \nand standards\n4\nGenerative video and \nAR/VR renaissance\n5\nWar for talent shifts \nto war for innovation",
+    "4\nGenerative video and \nAR/VR renaissance\n5\nWar for talent shifts \nto war for innovation\nThe forever digitally young\nSo, are there AI natives?\nEarly pioneers have common traits:\nHow are early pioneers applying generative AI?\n Expert assistants for professional work\n Media generation \n Market insights \n Text to software product generators \n Interactive chat-bots \nCarousal Starts\nCarousal Ends\nHead of Artificial Intelligence \nand Analytics Practice\nNaveen Sharma\n2\nWhere we’re headed",
+    "Head of Artificial Intelligence \nand Analytics Practice\nNaveen Sharma\n2\nWhere we’re headed\nIn an April 2023 interview with CBS, Alphabet \nCEO Sundar Pichai famously commented that \ntoday’s generative AI will soon impact “every \nproduct across every company.”  With rapid \nconsumer adoption and the increased \ncompetitive pressure created by gen AI across \nindustries, Pichai’s predication is sure to hold \ntrue.\nAs gen AI permeates markets, it’s critical that",
+    "true.\nAs gen AI permeates markets, it’s critical that \nadaptability be built into the technology and \ncultural fabric of organizations. New, disruptive \nintra-industry and extra-industry use-cases will \narise frequently in the coming years creating \ncontinuous change to navigate.\nChange (and more change) ahead\n3\nKnown strengths of generative AI\nGen AI presents a fundamental change in our understanding of what practical, \nimmediately-accessible AI can do. Chat-bots, candidate screening tools,",
+    "immediately-accessible AI can do. Chat-bots, candidate screening tools, \nsummarizers and picture-makers might inspire us today, but soon AI will shape the \ncore of modern business.\nIt isn’t sentient but it sure does behave in human ways – and that’s what’s so \ninspiring about this technology. Whether finishing a sentence, writing the code for \na component, ideating on novel molecular structures or animating an entire new",
+    "a component, ideating on novel molecular structures or animating an entire new \nmovie, this generation of AI composes complex patterns and data to create.\nAs organizations come to understand the strengths and potential use-cases of \ngen AI, they also begin to realize the fundamental requirements within their \norganization for fully leveraging this technology.\nIt all starts with data. Combine that data with business processes and logic and \ngen AI is transformative.\n“Generative AI provides",
+    "gen AI is transformative.\n“Generative AI provides \ncompletely new \ncapabilities to \nautomate and \naugment knowledge \nwork. It is going to \nturbo-charge tasks that \nrequire creativity and \nexpertise, such as \ndesign, engineering \nand quality assurance”\nCore business \nprocesses that, in \nthe past, have not \nbeen open to \nautomation due to \ncomplexity and \nvariability can now \nbe managed and \nreshaped by AI\nGen AI systems \nwork with data to \nprovide first-line \nanalysis, \nclassification,",
+    "reshaped by AI\nGen AI systems \nwork with data to \nprovide first-line \nanalysis, \nclassification, \nsanitization and \nmore, free from \nhuman error and \nat scale\nGen AI is capable \nof analyzing \ncomplex, \nstructured or \nunstructured data \nto identify patterns \nand trends to form \nactionable \nrecommendations\nAI makes \nknowledge work \nmore efficiently by \naccelerating and \nexpanding on \nideation, distilling \ndata to find \ninsights, rapidly \ndrafting and more\nGen AI is capable \nof monitoring",
+    "data to find \ninsights, rapidly \ndrafting and more\nGen AI is capable \nof monitoring \nprocesses and \noutputs to \nproactively identify \nopportunities for \nimprovement, \nprescribe and even \nimplement \nchanges\nGen AI is \ncapable of both \nconsumption \nand creation of \nrich media \nacross text, \naudio, video and \nimages, \nunlocking \npowerful new \npossibilities\nKnown weak points of generative AI\nThe cyclical evolution of AI over the past 75 years has been",
+    "Known weak points of generative AI\nThe cyclical evolution of AI over the past 75 years has been \nmarked by periods of waxing enthusiasm and waning \npessimism. As new advances promised new opportunities, \ninstitutions and businesses have jumped in and invested \nheavily in the technology. When outcomes haven’t met \nexpectations, though, the AI space has experienced \ndisillusionment and stagnation.\nBy its nature, AI is unpredictable and this is only further",
+    "disillusionment and stagnation.\nBy its nature, AI is unpredictable and this is only further \nhighlighted by the gen AI boom and the human-like creativity \nof its outputs.\nLike humans and on many tasks, gen AI is capable of working \nflexibly towards a goal or target output rapidly and creatively. \nAlso, like human workers, context matters.\nWhether its brand values, ethical considerations, situational \nknowledge, historical learning, consumer needs or anything",
+    "knowledge, historical learning, consumer needs or anything \nelse, human workers are expected to understand the context of \ntheir work—and this can impact the output of their efforts. \nWith generative AI, contextual understanding is often difficult \nto achieve “out of the box,” especially with consumer tools like \nChatGPT. This has been the source of much of gen AI’s \ncriticism.\nGenerative AI wants to answer us. It’s built to respond to our \nprompts—no matter their complexity—and often provides",
+    "prompts—no matter their complexity—and often provides \nanswers that, in a sense, acknowledge this fact. ChatGPT \nallows us to refresh responses. Image generators like OpenAI’s \nDALL-E or the popular Midjourney both return multiple images \nto any single prompt. These tools understand that they may be \nwrong.\nThe creative muscle of gen AI can be striking, but it is definitely \nnot magic. Gen AI’s capabilities are fundamentally based on \nreference data and training.",
+    "not magic. Gen AI’s capabilities are fundamentally based on \nreference data and training.\nAI adoption creates new categories of risk that require focused \nassurance at the enterprise level. Organizations that engage in \nthis transformative technology with this in mind will gain the \nmost from the AI era.\nHallucinations\nWhen AI produces unreliable and erroneous outputs, it \nerodes data-driven strategy, reduces customer trust and \nlimits operational efficiency.\nData quality and AI safety",
+    "limits operational efficiency.\nData quality and AI safety\nBecause data shapes AI’s knowledge base, any \ninadequate data inputs will create bias and limit accuracy, \nfairness and decision-making.\nThe explainability problem\nWhen AI provides a decision, there is inherent uncertainty \nin its certainty. The larger and more complex a model, the \nharder to ascertain.\n“Overcoming gen AI’s limitations, we \nare achieving very strong results in \nhybrid systems where generative and",
+    "are achieving very strong results in \nhybrid systems where generative and \nevolutionary AI models are combined \nto play to their strengths. This will be a \ncritical foundation for successful \nadoption.”\nSignificant concerns for \nmisuse and harm, bias in \npoorly trained systems and \nother negative outcomes of \nuse\n AI \ncreates entire new \ncategories of risk that \nrequire focused testing, \ngovernance and assurance. \nLLMOps creates a \nframework for such \nresponsible usage",
+    "governance and assurance. \nLLMOps creates a \nframework for such \nresponsible usage\nConcerns for copyright, IP \ninfringement and regulatory \nissues when dealing with \nprotected data, privacy\n These \nconcerns are ‘native’ to \ndigital business. Processes \nand tooling can help \nnavigate and safeguard \nhere and every business \nneeds a unique plan\nConcern over \nhallucinations, poorly \nstructured or insufficient \ndirection in business-\nimpacting scenarios\nGenerative AI can never be",
+    "structured or insufficient \ndirection in business-\nimpacting scenarios\nGenerative AI can never be \nexpected to provide 100% \npredictability in output. This \nis why training, tuning and \ncontinuous monitoring must \nbe integrated\nConcern over customer \npreference against gen AI in \nkey touchpoints and dilution \nof brand experience\n As with \nother AI questions, the key is \nto test and train gen AI \nsystems well before usage \nand be selectively \ntransparent with customers \nabout use",
+    "systems well before usage \nand be selectively \ntransparent with customers \nabout use\nThe blurring boundary between human and machine work\n1\nComplex process \nautomation\n2\nData \naugmentation and \ncompletion\n3\nPredictive analysis\n4\nDriving efficiency \nand supporting \nknowledge work\n5\nReal time \noptimization\n6\nMultimedia \ngeneration\nTo err is human. For AI, it’s by design.\nIts strengths shape its weaknesses\nHow can we ensure ethical \nusage?\nCognizant answer:\nWhat legal implications",
+    "How can we ensure ethical \nusage?\nCognizant answer:\nWhat legal implications \nshould concern us?\nCognizant answer:\nHow can we ensure \npredictable output?\nCognizant answer:\nHow will this impact our \nbrand or public perception?\nCognizant answer:\nCarousal Starts\nCarousal Ends\nHead of Digital Experience and \nDigital Engineering Delivery\nPramod Bijani\nAI CTO\nBabak Hodjat\nGen AI’s open questions\nAs enterprise decision-makers consider their \npaths forward in this new AI-enabled world,",
+    "As enterprise decision-makers consider their \npaths forward in this new AI-enabled world, \nquestions are being asked that are as complex \nand difficult to navigate as the technology \nitself. How do we know our AI isn’t \nhallucinating? What ethical boundaries does \nthis system present? How can we rely on \nanswers, if we can’t explain how our systems \nreached them?\nThese questions largely mirror the ‘weaknesses’ \ndiscussed earlier, and their answers will be",
+    "These questions largely mirror the ‘weaknesses’ \ndiscussed earlier, and their answers will be \nshaped through trial and error, learning and \ntime.\nWhat’s certain is that readying the organization \nto navigate this AI-enabled world is critical for \nfuture business performance—exploring these \nquestions is a key part of that readiness.\nWe’ll explore near-term steps to take to address \nthese concerns within the readiness section \nlater in this guide.\nWaiting is not the answer\n1 2 3 4 5 6 7",
+    "later in this guide.\nWaiting is not the answer\n1 2 3 4 5 6 7\n7 proven use cases of gen AI impact\nEven at this early stage, the opportunities for generative Al across the enterprise are countless. With the right foundations, the \nonly limitation of gen AI solution-building may be a company’s imagination.\nWith so much opportunity and so many questions, it can be hard to know where to start. As you’ll find in our discussion of gen AI",
+    "readiness later in this guide, what’s key is that organizations begin exploring this technology early to identify their own \nopportunity spaces, safeguard against disruption and begin building skills.\n With the following seven example use-cases of generative AI, we’ll \nhighlight just how varied the opportunity can be. Every part of the value chain across every industry stands to be disrupted in",
+    "unique, differentiating ways as organizations bring their unique data, processes and POV to the discussion. Let’s dig in.\nTurning data into human-readable, actionable and contextualized guidance is a major strength of gen AI. Generative AI systems \ncan be used to industrialize data collection from a range of sources, including curated market research, real-time customer and",
+    "competitive behavior, internet scraping and primary user research. Whether structured or unstructured, this data empowers \nsystems to drive a range of automated analysis, summarization and recommendations.\nCollate captured data to \nidentify relevance to \ndefined topics of interest\nIdentify new, relevant topics \nand add granularity to \nexisting topics being \ntracked\nAdopt customer and \nstakeholder personas and \nreact to content\nCorrelate, compare and \ncombine related content on",
+    "stakeholder personas and \nreact to content\nCorrelate, compare and \ncombine related content on \na topic(s) to distill insights\nRespond to insights to \ngenerate new concepts and \nhypotheses\nDefine audiences and \ncreate qualitative and \nquantitative research \nquestions\nMock up concepts and \nstimulus for research testing \nand user validation\nTranscribe research data, \nextracting findings, \nconfidence levels and \naspects requiring follow-up \nresearch\nGenerate narrative and \nexplanation around raw",
+    "aspects requiring follow-up \nresearch\nGenerate narrative and \nexplanation around raw \ndata and derived insights\nProvide a natural language \ndiscussion interface to \ninteract with the corpus of \nresearch data\nMicrosoft Visual Studio Code, the wildly popular integrated development environment (IDE), has long-supported GitHub’s Copilot \nproduct (by some estimates automating 40%-60% of code writing ) and now also integrates ChatGPT directly into the developer",
+    "interface. But the utility of generative AI during software development goes well beyond writing components. The entire software \ndevelopment process is set to see transformation as this technology impacts creativity, quality, productivity, compliance, utility \nand more.\nCollate employee ideas, \nfeedback and data to \nidentify new opportunities\nEngage with AI to discuss \nenterprise structure, \nperformance, code base, \netc.\nUse AI for scope testing \nsessions, to summarize \nfindings or suggest",
+    "etc.\nUse AI for scope testing \nsessions, to summarize \nfindings or suggest \nimprovements\nCreate rapid product \nvisualizations to bring to life \nnew ideas and support user \ntesting\nExtrapolate concepts to \nepics, stories and \nacceptance criteria\nPrioritize scope items, \nsequence to sprint plans \nand assign to teams based \non functions and skills\nCreate code based on \ncollaborative developer \ninput and code base \ncontext\nAssess risks and failure \nmodes, build test scenarios,",
+    "input and code base \ncontext\nAssess risks and failure \nmodes, build test scenarios, \ntest data and automations \nto validate\nIdentify impacted groups \nand assist those groups in \naddressing impacts\nInspect code and project \nactions to determine if go-\nno-go criteria are met and \nthe solution is ready to \nrelease\nProduct research, production and quality control will see significant Generative AI impact in the coming years as organizations",
+    "across industries seek to unlock transformative new efficiency and product innovation ahead of competition. This zone is highly \ncontrolled and data-intensive, making it a perfect early adoption area. The IP established through smartly leveraging Generative \nAI in this space will reshape industries and establish new leaders.\nShape product \nrequirements based on \ncurrent and expected future \ndemands\nAssist in identifying and \noptimizing materials for a \nvariety of requirements",
+    "demands\nAssist in identifying and \noptimizing materials for a \nvariety of requirements\nEmulate real-world \nscenarios virtually at vast \nscale to optimize product \ndesign\nCreate numerous variants \nbased on requirements, \naccelerate creative work\nRapid virtual prototypes \nbased on adjustable goals \nand balance of trade-offs\nSimulate specific user \nscenarios, suggest variants \nthat service new groups\nPartner with humans to \ncritically respond to \nconcepts and help shape \ndesign\nAnalyze design-to-",
+    "Partner with humans to \ncritically respond to \nconcepts and help shape \ndesign\nAnalyze design-to-\nproduction pipeline for cost \nsavings and sustainability\nSystems to inspect \nproducts, ID defects or \ninconsistencies accurately \nat scale\nPredict supply chain \ndisruptions, optimize \nsourcing and optimize \nlogistics\nGen AI can be integrated \nwith ERPs and CRMs for \nfurther insights\nAnalyze product \nperformance data and \nfeedback to drive \nrefinements",
+    "further insights\nAnalyze product \nperformance data and \nfeedback to drive \nrefinements\nGenerative AI improves planning, production efficiency and effectiveness throughout the marketing and sales journey. As the \ntechnology gains adoption, asset production cycles will see a marked acceleration with a range of potential new asset types \nand channel strategies becoming available. Further, self-service channels will become more personalized and impactful while",
+    "sales staff will increase their productivity and knowledge to focus more time on driving successful customer engagements.\nCreate digital assets: \nimages, alt text, copy, \ntranslations, scripts, \ncampaign plans and more\nCreate software to support \ninteractive campaign \nelements\nScope testing sessions, \nsummarize findings and \nsuggest improvements\nConversational data \ncapture at lead \nidentification stage to \nprovide rich lead \ninformation and immediate \ncustomer response\nCreate personalized",
+    "provide rich lead \ninformation and immediate \ncustomer response\nCreate personalized \ncomms, content and \nexperiences for \nengagement and nurturing \nleads\nIdentify the best activities \nfor sales teams to focus on \nand craft personalised \naction plans\nTrain sales staff on latest \npropositions, messaging \nand tactics\nGeneratively compose \npresentations that combine \nsales strategy, customer \ncontext and standard \nofferings\nRespond automatically \nusing best practice answers \ntailored to context",
+    "offerings\nRespond automatically \nusing best practice answers \ntailored to context\nAssemble contracts and \nstatements of work to \nmatch proposals, MSAs, \nstandard terms, etc.\nGenerative AI streamlines and accelerates the provisioning of expert advice to benefit end-users and businesses alike. In many \nscenarios, gen AI has the capacity to act in a self-service model to provide expert guidance directly to users. Where complexity",
+    "is higher or in safety-critical environments, gen AI can facilitate many stages of the process without acting in a fully autonomous \nway. With AI-driven pre- and post-processing, experts can more effectively utilize their time and focus on the highest-value or \nmost-critical scenarios.\nUnderstand user issue and \ndetermine if expert \nconsultation is needed and \nappropriate\nUnderstand the urgency \nand importance of the \nrequest to prioritize service\nProcess unstructured data",
+    "and importance of the \nrequest to prioritize service\nProcess unstructured data \nsources to extract the \nrequired information\nAddress questions in a \nconversational experience \nto gather necessary data\nChase participants to \nprovide missing information \nand correct errors\nDraw attention to \ninteresting or outlier input \ndata features\nApply standard policies and \nprocedures to the input \ncontext to suggest \noutcomes\nAllow experts to \ninteractively discuss the \ncase with the necessary",
+    "context to suggest \noutcomes\nAllow experts to \ninteractively discuss the \ncase with the necessary \nbackground knowledge to \ntake action\nInterpret expert conclusions \nand trigger appropriate \nfollow-up activities\nReview expert conclusions \nand highlight any causes \nfor concern (e.g., policy \nmisalignment, bias)\nCompanies that adopt generative AI at a cultural level, going beyond asset production and chat interactions to elevate all",
+    "common touch-points for customers and employees alike, will see the biggest gains in the coming years. Employee engagement \nis an exciting space for gen AI with the potential to impact recruiting, onboarding, team-building, performance management, \nsupport and more. The efficiency gains here will empower innovation across the business as gen AI permeates the market.\nReview applications, assess \nfit and extract concerns \nprior to interview\nSuggest role-specific \nquestions, transcribe and",
+    "fit and extract concerns \nprior to interview\nSuggest role-specific \nquestions, transcribe and \nsummarize conversations\nDevelop tailored offer \nstrategy to close strategy \nusing interview transcripts\nConversational onboarding \nassistant to guide employee \njourneys for first month\nLeverage enriched findings \nto match new hires to roles \nand opportunities\nSuggest connection to \ncommunities of interest, \nsites, etc.\nSimplify standard activities \nlike timesheets, vacation",
+    "communities of interest, \nsites, etc.\nSimplify standard activities \nlike timesheets, vacation \nrequests, expense reporting, \ntraining, etc.\nAssist with self-service \nsupport for IT, human \nresources, etc.\nProvide interactive training \non skills development topics \nand answer questions on \ncompany data\nReview activities, outcomes \nand feedback to suggest \nspecific learning and \ndevelopment activities",
+    "Review activities, outcomes \nand feedback to suggest \nspecific learning and \ndevelopment activities\nWhether they’re just browsing or already a loyal customer, the way that people engage with brands throughout the shopping \nand post-purchase experience is set to dramatically evolve with gen AI. With answers becoming more seamless and appetite for \ncontent noise decreasing, customers will expect personal, intuitive, adaptive touch-points that understand and serve their needs.",
+    "It’s time to put more you into UX.\nSynthesize wide user data \nto create a new level of \npersonalized shopping \nexperience\nGenerative AI visualizes \nproduct in various settings, \nincluding worn, for better \nproduct qualifying\nAdaptive user interfaces, by \ncontext: behavioral, social, \ntemporal, emotional, \npersonal\nUsers use natural language \n(voice or text) to engage, \nfilter, qualify, assist, etc. \nduring buying experience\nPotential for novel AI-driven \npricing mechanisms based",
+    "during buying experience\nPotential for novel AI-driven \npricing mechanisms based \non various inputs to \noptimize sales\nBased on prior buying \nbehavior, post-purchase \nengagements, etc. predict \nand address concerns\nAI for analyzing customer \nbehavior to identify and \nrespond to fraud or suggest \nnew systems that might \nfurther prevent fraud\nNovel loyalty programs \nusing gen AI systems that \npersonalize incentives\nID behavioral patterns of at-\nrisk customers and design \nengagements to prevent",
+    "ID behavioral patterns of at-\nrisk customers and design \nengagements to prevent \nchurn\nSystems to dynamically \nbuild cohort-based and \npersonalized remarketing \nstrategies\nGen AI learns from loyal \nbuyers to identify/surface \ntrends and formulate full-\nfunnel campaigns\nMarket and \ncompetitor \nintel\nSoftware \ndevelopment\nProduction Marketing \nand sales\nExpert \nadvisors\nEmployee \nengagement\nCustomer \nexperience\nFortunately, there’s no need to start this journey from scratch.",
+    "engagement\nCustomer \nexperience\nFortunately, there’s no need to start this journey from scratch.\n1. Market and competitive intel\nIngestion of market data\nSummarize and classify\nCoverage adjustment\nReact as persona\nGaining insights from data\nSynthesize multiple sources\nIdeate\nPrepare primary research\nDeveloping and validating \nhypotheses\nConcept mock-up\nTranscription\nPackaging and distributing\nReport writing\nInsight navigator\n2. Software development\nGenerate ideas\nCrowd sourced ideation",
+    "Report writing\nInsight navigator\n2. Software development\nGenerate ideas\nCrowd sourced ideation\nNavigate current state\nUser testing\nDevelop concepts \nConcept mock-up\nRequirements elaboration\nImplementation planning\nImplement software \nCode completion\nQuality assurance\nChange management\nAssurance and release\nRelease readiness\n3. Production\nResearch and development\nPRD shaping\nMaterials research\nAI-powered scenario \nmodeling\nDesign and prototyping\nGenerative design\nTradeoff-based prototyping",
+    "AI-powered scenario \nmodeling\nDesign and prototyping\nGenerative design\nTradeoff-based prototyping\nNiche user optimization\nDesign critique AI\nProduction\nCost/sustainability \noptimization\nProduction quality \nassurance\nSupply chain optimization\nGo to market\nExternal systems integration\nContinuous improvement \nfeedback loop\n4. Marketing and sales\nManage channels\nContent production\nSoftware development\nUser testing\nNurture leads\nLead capture\nLead nurturing\nSales prioritization\nManage opportunities",
+    "User testing\nNurture leads\nLead capture\nLead nurturing\nSales prioritization\nManage opportunities\nSales effectiveness\nSales presentations\nNegotiate and close\nCustomer RFP responses\nNegotiation and closure\n5. Expert advisors\nCustomer requests service\nQualification\nTriage\nCollect information\nInformation extraction\nInitial data capture\nCollection management\nEvaluate and recommend\nAnomaly extraction\nRecommendation\nCase discussion\nAction recommendations\nDownstream fulfilment\nQuality assurance",
+    "Recommendation\nCase discussion\nAction recommendations\nDownstream fulfilment\nQuality assurance\n6. Employee engagement\nRecruit\nCandidate screening\nInterview assistance\nClose\nOnboard\nNew hire buddy\nStaffing\nCommunity connection\nEnable\nAccelerate admin\nSupport AI\nEducational AI\nDevelop\nPerformance coach\n7. Customer experience\nShopping and product \ncomparison\nIntelligent product \nsuggester\nVirtual demos / try-ons\nContextual UI\nConversational UI\nPurchase, returns\nDynamic personalized \npricing",
+    "Contextual UI\nConversational UI\nPurchase, returns\nDynamic personalized \npricing\nPredictive return systems\nFraud detection AI\nLoyalty\nGenerative loyalty \nprograms\nChurn prevention AI\nGenerative remarketing\nRepeat\nBehavioral campaign \nshaping\nCarousal Starts\nCarousal Ends\n5\nDeploying gen AI in a responsible and effective way\nWith all of the compelling use-cases for gen AI and the immediate accessibility of public tools in the market today, it can be easy",
+    "to get carried away in the AI hype. That same consumer availability of basic AI tooling can trivialize the complexity and \ndownplay the policy, process, partnership and skill required to build tailored, production-grade solutions.\nEnterprise AI and machine-learning (ML) applications require automation engineering, data management, feature engineering, \nresource management, QA, and testing teams, IT operations and more; all aligned with coherent, shared accountability in order",
+    "to effectively deliver solutions. In the following pages, we will explore how LLMOps expands our view of DevOps and how an \nupdated view of quality engineering can safeguard AI solutions with holistic automated testing.\nIt all starts with setting strong, enforceable principles for responsible AI development.\nLLMOps brings speed, support and safeguards to solution \ndevelopment",
+    "LLMOps brings speed, support and safeguards to solution \ndevelopment\nThe following two pages provide an introduction to LLMOps but remain too high-level to sufficiently detail the orchestration of \npeople, tooling and processes required to operationalize these practices. To explore more, engage with Cognizant’s generative \nAI team.\nGen AI solutions can be surprisingly seamless. The ability to understand users, act on their needs and provide human-like",
+    "creative responses is what makes gen AI such a compelling solution today. Behind the scenes, though, gen AI solution \ndevelopment adds layers of complexity to the work of digital teams that go well beyond API keys and prompts. Orchestration is \ncritical.\n Gen AI systems are difficult to test and unpredictable by nature – they cannot be validated and deployed in a ”set and \nforget” fashion\n•",
+    "forget” fashion\n•  \n Development requires many skills and teams must rely on each other – this takes coherent organization and alignment \nprograms\n•  \n Gen AI systems must be at once predictable but flexible – this takes training and continuous monitoring•  \nGenerative AI development requires too many skills and processes to manage with manpower alone•  \n Generative AI often leads to scenarios where privacy, regulatory compliance and data leakage are concerns—systems must\nbe secure\n•",
+    "be secure\n•  \n Manual review of issues, anomalies and experience is untenable and might remove any ROI or advantage of these systems—\nautomation is needed\n•  \nDue to these conditions, new ways of working are required. Building on the popular concept of DevOps, LLMOps provides a path \nforward.\nLLMOps aligns data engineering, agent development, software engineering and IT Operations to enable",
+    "continuous integration, continuous delivery and continuous model training with an emphasis on automation and monitoring at \nall steps.\nAs organizations seek to develop effective generative AI- enabled solutions for internal and external users, defining and \nenforcing their own LLMOps approach is imperative.\nThis often starts with defining the KPIs of gen AI solutions (aligned to responsible AI principles) and ensuring that processes,",
+    "governance and tooling are in place—made possible by LLMOps—to monitor and influence those KPIs.\n are often confused, but they describe entirely different disciplines: LLMOps standardizes machine \nlearning model deployment while AIOps automates IT operations.\nTransparency and automation at the heart of LLMOps\nAs organizations tiptoe into gen AI, linear solution development processes will be \nfavorable for proof-of-concept development at speed. The belief is that model",
+    "favorable for proof-of-concept development at speed. The belief is that model \ntraining is something done early within a process and that a trained model can be \nutilized endlessly. This can work for testing the waters but is not a sustainable \nsolution.\nMature LLMOps processes are iterative in nature with observability and \nautomation at their heart. As a continuous cycle, LLMOps allows data intake and \nlearning to regularly impact the solution while automating as much as possible",
+    "learning to regularly impact the solution while automating as much as possible \nand keeping humans in the loop. This feedback loop is key to responsible AI \ndevelopment. By ensuring that model behavior, application performance, data \nprotection and system changes are controlled through a technology-driven \nworkflow, organizations can operate more effectively.\n“We must build quality \nand control into AI \nsolutions to manage \ntheir continuous \nevolution. Due to their \nbroad capabilities",
+    "solutions to manage \ntheir continuous \nevolution. Due to their \nbroad capabilities \nand emergent \nbehavior, \nmanagement is \nneeded across the \nentire lifecycle.”\nQuality assurance and testing systems in a gen AI world\nThe evolved role of quality assurance’s (QA) teams and tooling within the delivery process will be a critical focus area for \norganizations seeking to deploy LLMOps.",
+    "organizations seeking to deploy LLMOps.\nWhile QA automation has become an area of strength for many mature engineering organizations, traditional approaches \nare insufficient for generative AI. The scope of QA and test automation has changed, with new driving factors to consider for \nAI-based applications.\nUpdated QA automation capabilities must cover:\n Supports operations and decisions across process\ne.g., Feature selection analysis, input data augmentation, data fitment analysis\n•",
+    "e.g., Feature selection analysis, input data augmentation, data fitment analysis\n•  \n Automation for monitoring model behaviors\ne.g., Model fairness analyzer, model validator, model interpreter, adversarial robustness tools\n•  \n Automation to monitor outputs of gen AI\ne.g., naturalness, toxicity, coherence, demo polarity, clarity, truthfulness, relevance, etc.\n•  \n Services and tooling to reduce specialist effort\ne.g., low-code/no-code solutions, customizable observability UI, etc.\n•",
+    "e.g., low-code/no-code solutions, customizable observability UI, etc.\n•  \n Automation of insights from AI solutions / workflows\ne.g., gen AI tooling to explain solutions, model outputs, live data, etc.\n•  \nGuiding principles for responsible AI development\nTactical principles for developing gen AI solutions in efficient, safe and value-oriented ways\nBe robust, be safe\nAI systems should perform reliably and safely. By building \nand deploying AI in accordance with best practices where",
+    "and deploying AI in accordance with best practices where \nwe robustly test before deployment then monitor and \nimprove operations regularly, we can reduce the risk of \nharm or unintended outcomes.\nBenefit people and communities\nBuild a more sustainable and inclusive world through AI \ninnovation. AI outcomes must incorporate human benefit \nand environmental sustainability in order to deliver impact \nand value to shareholders, users, customers, employees \nand society at large.",
+    "and value to shareholders, users, customers, employees \nand society at large.\nProtect privacy and respect boundaries\nAI systems must be secure, compliant and respectful of \npeople. Affirmative consent and a human-centered, \nprivacy-first approach ensures sensitive data is never used \nunethically. A variety of auditing systems and safeguards \nare key within gen AI systems.\nDesign for transparency\nAI systems should be understandable. Build trust and drive",
+    "Design for transparency\nAI systems should be understandable. Build trust and drive \nunderstanding through silo-breaking collaboration and rich \ncommunication across users and stakeholders, allowing \nthem to understand AI systems and system outputs within \ntheir own, personal context.\nPromote inclusivity and minimize bias\nBias exists in our data, models and our world; responsible AI \nsystems seek to ensure AI is fair, unbiased and \nrepresentative end to end and full-context. AI systems",
+    "representative end to end and full-context. AI systems \nshould treat people fairly and AI should be produced and \nreviewed by diverse teams.\nDrive accountability and enable participation\nPeople should be accountable and in control of AI systems. \nClear processes and incentives for engagement create a \nculture where every individual is empowered to protect \npeople, minimize risk and discover spaces of humane \nvalue.\nConsider the following difficulties:\nLLMOps defined:",
+    "value.\nConsider the following difficulties:\nLLMOps defined: \nThese LLMOps KPIs can include:\nLLMOps and AIOps\n Systemic data assurance:\n Systemic model assurance:\n Generative output assurance:\n Low data scientist QA efforts:\n Deep insights:\nCarousal Starts\nCarousal Ends\nDuration from \ninitiation to \ndeployment of gen \nAI-based solutions\nCycle time: \nHow often updates \nor new gen AI \nsolutions are \npushed to \nproduction\nDeploy frequency:\nTime taken to \nreview and \nvalidate solution",
+    "pushed to \nproduction\nDeploy frequency:\nTime taken to \nreview and \nvalidate solution \n(model) outputs \nand performance\nReview time: \nThe proportion of \ntasks handled \nautonomously by \nthe system\nAutomated \nsolution ratio:\nDiscrepancies in \nsolution (model) \noutputs or \nincoming data \nfrom the training \nscenario\nData and model \ndrift:\nHead of Quality Engineering & \nAssurance Practice\nAndreas Golze\nPractical guidance to reap the benefits of gen AI",
+    "Assurance Practice\nAndreas Golze\nPractical guidance to reap the benefits of gen AI\nDespite the hype around gen AI, we’re still in the early days of the AI-driven business. It’s a certainty that AI will transform every \ncorner of our digital universe and yet we’re continuing to learn how. With new applications conceived daily and development of \nnext-gen generative AI models underway, innovators are fast at work reshaping the future of work. Adaptability in such a rapidly",
+    "changing landscape is critical.\nWith so much hype and a sea of noise to cut through, many organizations are asking more tactical questions. What must be \nnavigated to move forward?\nTo get practical about gen AI, start with these questions. In the following pages, we’ll double-click into each as we explore a path \nforward.\n“To get practical about gen AI, have we:”\n1 2 3 4 5\nProvisioning initial access to enterprise-grade gen AI tools",
+    "1 2 3 4 5\nProvisioning initial access to enterprise-grade gen AI tools\nIn the wake of ChatGPT’s emergence, it’s safe to say that every enterprise was abuzz \nwith cautious excitement about the potential of this new technology.\nAt the individual team-member level, workers around the world began testing \ngenerative AI for their own use-cases. A recent survey from The Conference Board \nfound that 56% of workers are using gen AI on the job, with nearly one in 10",
+    "found that 56% of workers are using gen AI on the job, with nearly one in 10 \nemploying the technology on a daily basis. Yet just 26% of respondents said their \norganization has a policy related to the use of generative AI, with another 23% \nreporting such a policy was under development.\nOrganizations have been relatively quick to respond to these risks. Amazon, notably, \nfound  indication of proprietary data in public model usage and responded with a \nban.",
+    "found  indication of proprietary data in public model usage and responded with a \nban.\nThis isn’t luddite behavior, it’s just good practice. At this early stage, it’s unclear \nexactly how customer data, proprietary business data and other protected data is \neither being exposed to the operators of public LLMs or used to train the models \nthemselves. Couple this with the simpler considerations of Privacy Policy adherence,",
+    "themselves. Couple this with the simpler considerations of Privacy Policy adherence, \nTerms of Service, regulatory considerations and more bans are surely on the horizon.\nAs new products go, any amount of friction (cost, risk, etc.) can have a chilling effect \non adoption. But generative AI isn’t simply a new product; it’s a transformative \ntechnology that can change the world in striking, progressive ways.\nEarly adopters will have the advantage in this new world. Beyond the obvious",
+    "Early adopters will have the advantage in this new world. Beyond the obvious \ncultural and process execution benefits of gen AI, we expect a patent boom in the \ncoming years as organizations invent novel uses of gen AI-based tools within their \nbusiness.\nPreparing the business for gen AI means getting serious about near-term, safe-\nguarded adoption with well-integrated monitors and control of usage. Gain \nadvantage while minimizing risk and learn as you go.\nSteps to take",
+    "advantage while minimizing risk and learn as you go.\nSteps to take\nA blocker for many orgs today, set \nclear policies and governance for \na generative AI world\n•  \nClear communication to \nassociates around access, policy \nleadership, support and \nappropriate usage\n•  \nClarify approved gen AI solutions \nand establish ownership for \naccess provisioning and support\n•  \nMaintain observability over \napproved AI services, monitor \nwho is using them and for what \npurposes\n•  \nSource insights and best",
+    "who is using them and for what \npurposes\n•  \nSource insights and best \npractices within an organizational \ncontext, communicate learning\n•  \nDesign a path to scale successful POCs\nWe’re quite early in generative AI’s diffusion of innovation bell-curve. Early adopters \nare establishing and quantifying basic use cases—gaining earned media as a \nresult—and most would-be digital leaders are watching with curiosity.\nIn an August 2023 report by Bain and Company , only 6% of surveyed health",
+    "In an August 2023 report by Bain and Company , only 6% of surveyed health \nsystems executives have a clear gen AI strategy in place, yet 75% believe that the \ntechnology can reshape their industries. The reasons are the same that we’ve \nalready discussed: uncertainty, risk, lack of inside knowledge and indecision. This\nlull in early adoption is where the advantage lies.\nTo ready themselves for the road ahead, it is imperative that organizations go",
+    "To ready themselves for the road ahead, it is imperative that organizations go \nbeyond provisioning access to public tooling and begin developing their own \ninside use-cases to drive a business case, spark thinking and lay a foundation for \nfuture development. This can be done in phased, controlled and protective ways.\nWe suggest two complimentary approaches:\nPilot projects build a ‘light house’ for future innovation and expansion. By",
+    "Pilot projects build a ‘light house’ for future innovation and expansion. By \nestablishing specific initial goals for a cross-functional pilot project team to pursue, \norganizations can create disruptive proofs of concept and establish an internal \nPOV.\nWe have supported multiple organizations on establishing their own innovation \nlab environments where governance, collaboration and technology enablement \nare high. These environments become particularly powerful when formed in",
+    "are high. These environments become particularly powerful when formed in \ncollaboration with hyperscalers who might provide innovative organizations with \naccess to advanced models, education and specialized tooling.\nOutcomes in focus\nGive enterprise context to gen AI \nuse-cases by showing viability \nand capability against revenue-\ndriving focus areas, expand on \nsuccess.\n•  \nLeverage gen AI early for \ndisruptive use-cases that drive \nbusiness value, safeguard the",
+    "•  \nLeverage gen AI early for \ndisruptive use-cases that drive \nbusiness value, safeguard the \nbusiness and accelerate future \nprojects.\n•  \nBegin establishing subject matter \nexpertise within core internal \nteams by capturing and sharing \nknowledge during practical \napplication.\n•  \nEstablish industry point of view on \ngen AI, attract business and \ntalent attention and set a cultural \nfoundation for an AI enterprise.\n•  \nIdentify opportunities to add AI to the development process",
+    "foundation for an AI enterprise.\n•  \nIdentify opportunities to add AI to the development process\nAs covered in our section on LLMOps, generative AI development implies \nsystemic changes to the way that software is delivered and supported \nwithin organizations. Zooming in, the same goes for software product \nengineering processes.\nHere are just some ways that gen AI might impact product development.\nThe ability of Generative AI applications to work with trained models",
+    "The ability of Generative AI applications to work with trained models \nwhile evolving those models (and the application’s outputs) with the \nconsumption of real-time data can unlock compelling use-cases for \nproduct idea-generation. Rather than relying on surveys and user reviews \nfor qualitative data, Generative AI agents might deliver new concepts \nfrequently based on real-time analytics. Product managers can then link \nthese ideas to business goals and set a path forward.",
+    "these ideas to business goals and set a path forward.\nAs multimodal models (capable of intaking and outputting images, text, \naudio, etc.) mature and see enterprise adoption, “clickable prototype” \ndesign will become less a job for designers and instead be handled by \ngen AI tools. Fed with design principles, systems and reference designs, \nthese prototype design tools will produce unbiased prototypes best fitting \nthe market data available. The job of designers will be to identify the most",
+    "the market data available. The job of designers will be to identify the most \npromising solutions and refine them.\nA core responsibility in product management is to manage and mitigate \nrisk. With its predictive analytics capabilities, AI tooling can help in \nidentifying potential risks and roadblocks early on in the prototyping \nphase. Quality, market readiness and future success can all be gauged \nby having algorithms analyze historic data, user preferences and even \nreal-time market trends.",
+    "by having algorithms analyze historic data, user preferences and even \nreal-time market trends.\nSustainability is the challenge of this generation of business. Generative \nAI can support sustainability efforts by optimizing resources and material \nmix for minimized waste and environmental friendliness. It can take \nregulatory processes into account, report on data and even affect \nsubsequent production processes for both software and physical goods.",
+    "subsequent production processes for both software and physical goods.\nModernize and significantly automate core business \noperations\nThere is no doubt that gen AI will revolutionize how we work. Process automation has long been a popular use-case in our \ndigital world and AI is going to open entire new opportunity spaces here. The debate around automation will continue to be \nmore focused on how regulators will impose limitations on the technology instead of how much potential the technology",
+    "affords us.\nLike media streaming, ride-sharing and other tech-driven economic catalysts that regulators have tried to stay in front of, \nresistance is a bit futile. Technology will be squeezed for as much juice as it can offer in a free market.\nIn our opening section of this document covering the future of gen AI, we touched on a shift from a war for talent (commonly \ndiscussed in the 2010s and pandemic era) towards a war for innovation as all businesses use gen AI to gain efficiency. AI-",
+    "enabled automation of core business processes will drive this shift. Savings must be reallocated to accelerating business \nvalue.\nExposure scores of at \nleast 5%\nExposure scores of at \nleast 25%\nExposure scores of 5% \nor lower\nSet new expectations with your suppliers\nIt’s every company’s job to evolve\nThe early big press-makers of generative AI have been the expected parties. \nHyperscalers have introduced new or evolved platforms for building AI solutions",
+    "Hyperscalers have introduced new or evolved platforms for building AI solutions \nwithin their ecosystems. Myriad ultra-specialized startups have announced \ncompelling new solutions to old problems (e.g., Hyfe’s  cough sound monitoring for \nillness diagnosis). And service providers, like us, are launching new accelerators and \nlabs for gen AI development.\nBut generative AI is coming for every product, in every market. That goes well",
+    "But generative AI is coming for every product, in every market. That goes well \nbeyond the early adopters and it includes you, your competition and your suppliers.\nAs you seek to leverage gen AI to unlock new efficiency, differentiate experiences, \nmaximize quality, find cost-savings and evolve the business model, don’t discount \nthe role your suppliers will play in these improvements.\nWhether a service provider, a manufacture or raw goods provider, a logistics service",
+    "Whether a service provider, a manufacture or raw goods provider, a logistics service \nor any other company that plays a role in your operations, there is an advantage to \nengaging early in a dialogue about gen AI.\nEvery one of your suppliers will be at a different stage of this journey. As they \nnavigate use-cases, seek to answer questions about risks and control and otherwise \ndive into gen AI, join them.\nFrom supplier to partner\nAs the innovation potential of",
+    "dive into gen AI, join them.\nFrom supplier to partner\nAs the innovation potential of \ngenerative AI becomes clear to more \norganizations, the opportunity to \ncreate wholly new experiences, \nservices and processes by \npartnering with suppliers on a joint \njourney will become compelling for \nmany businesses.\nGoing well beyond the cost savings \nof a joint investment, with enriched \ndata, access to more skills and \nbeyond, these partnerships might \nbenefit both parties in dramatic",
+    "beyond, these partnerships might \nbenefit both parties in dramatic \nways when executed well. Consider \nthe role of each key supplier within \nyour service or product delivery and \nmove the discussion beyond what \nthey can do with AI for you.\nWhy engage now?\nTo learn more about Cognizant’s generative AI solutions:\nhttps://www.cognizant.com/us/en/services/ai/generative-ai\nDive deeper into this topic and learn about the kinds of gen \nAI work Cognizant is doing with our clients:",
+    "AI work Cognizant is doing with our clients:\nhttps://www.cognizant.com/us/en/insights/tech-to-\nwatch/generative-ai\nReferences\nSitemap                                    Terms                                    Privacy Notice                                    Cookie Notice                                    ©2024 Cognizant, all rights reserved\nProvisioned initial \naccess to \nenterprise-grade \ngen AI tools?\nDesigned a path \nto scale \nsuccessful POCs?\nIntroduced AI to the \ndevelopment process?",
+    "Designed a path \nto scale \nsuccessful POCs?\nIntroduced AI to the \ndevelopment process?\nModernized and \nsignificantly automated \ncore business operations?\nSet new expectations \nwith our suppliers?\nBut still, the advantages…\n Update policies and governance\n Educate employees actively, \ncommunicate often\n Set governance over approved \nservices\n Identify and supervise adoption\n Learn and capture best-practices\nQuietly building a boom\n1. Establish and run pilot projects",
+    "Learn and capture best-practices\nQuietly building a boom\n1. Establish and run pilot projects\n2. Enable and accelerate with AI innovation “labs”\n Build a business case for \nexpanded focus\n Gain edge, protection from \ndisruption\n Develop early internal SMEs and \ninsight\n Build internal and external \nreputation\nIdea generation\nProduct design\nRisk mitigation\nResource optimization\nBy 2032, few jobs could go untouched by generative AI\nSome impact:\n Greatly impacted:\n Little impact:",
+    "Some impact:\n Greatly impacted:\n Little impact:\nMost jobs will see some change from gen AI, and over half could be greatly impacted.\n1. https://www.cnn.com/2022/07/23/business/google-ai-engineer-fired-sentient/index.html cognizant-technology-to-invest-1-billion-in-gen-ai-over-three-years-\n123080300490_1.html\n2. https://www.crunchbase.com/hub/artificial-intelligence-startups",
+    "123080300490_1.html\n2. https://www.crunchbase.com/hub/artificial-intelligence-startups\n3. https://thehill.com/policy/technology/3954570-google-ceo-says-ai-will-impact-every-product-of-every-company-calls-for-regs/\n4. https://tvpworld.com/71221233/ai-threatens-nearly-30-of-jobs-within-oecd-report\n5. https://devclass.com/2023/02/16/github-claims-new-smarter-copilot-will-block-insecure-code-writes-40-60-of-developer-output/\n6. https://www.conference-board.org/press/us-workers-and-generative-ai",
+    "6. https://www.conference-board.org/press/us-workers-and-generative-ai\n7. https://gizmodo.com/amazon-chatgpt-ai-software-job-coding-1850034383\n8. https://www.bain.com/about/media-center/press-releases/2023/majority-of-health-system-executives-believe-generative-ai-will-reshape-the-industry-yet-only-6-have-\na-strategy-in-place/\n9. https://www.cognizant.com/us/en/gen-ai-economic-model-oxford-economics\n10. https://www.hyfe.ai/\nCarousal Starts\nCarousal Ends\n6\n7\n8\nExplore areas for",
+    "10. https://www.hyfe.ai/\nCarousal Starts\nCarousal Ends\n6\n7\n8\nExplore areas for \ngenerative AI to support \nknowledge work and \naccelerate creativity\n1. Target core functions\nfor AI-driven \naugmentation\nApply gen AI solutions to \nexisting process \nautomations to further \nstreamline for efficiency\n2. Assess and expand on\nexisting process \nautomation\nUtilize gen AI to reduce \nor replace human data \nprocessing, gaining \nspeed and accuracy\n3. ID opportunities to pre-\nprocess data",
+    "processing, gaining \nspeed and accuracy\n3. ID opportunities to pre-\nprocess data\nApply gen AI to business \nprocesses to \ncontinuously and \ncompletely audit quality, \nregulatory compliance \nand more\n4. Deploy generative\nassurance\n10\nSuppliers are critical to your bottom \nline. Ask how they plan to improve \nSLAs, decrease total cost of \nownership, operate faster and \notherwise drive more business value \nfor you and other customers.\nYou stand to gain from their \nimprovements",
+    "for you and other customers.\nYou stand to gain from their \nimprovements\nAs all companies are learning, work \nwith suppliers to understand their \nown findings, partnerships and \ninterest areas. Formalize shared \nlearning between strategic teams \nand capture insight.\nYou will learn from one another\nAs you engage with your suppliers, \nconsider internal solution \nopportunities and how supplier data \nmight improve model training and \nsolution delivery. Bring predictability,",
+    "might improve model training and \nsolution delivery. Bring predictability, \nnew product ideas, streamlined \noperations and more to life.\nOpen the door to more data\nGenerative AI \nHandbook                                            \nWhat to know and what actions to take to prepare\nyour business for an era of exponential innovation                                            \nLandscape                                            \nThe human-like ability of generative AI to converse,",
+    "The human-like ability of generative AI to converse, \nconsider and create has captured imaginations. By \nunderstanding how we got here—and the decades of \nthinking that led us to gen AI—we can better predict \nwhat’s coming next.                                            \nBasics                                            \nThe fundamental strengths of generative AI perfectly \nmirror its unavoidable weaknesses. The fundamental \ncharacteristics of the technology provide insight into",
+    "characteristics of the technology provide insight into \nits disruptive potential – and explain why adoption will \nimpact every part of the enterprise over time.                                            \nApplications                                            \nConsider the early plugins available for ChatGPT, or \nbots on the Poe app, and it’s clear that the use -cases \nof generative AI are about as vast and varied as",
+    "of generative AI are about as vast and varied as \nsoftware itself—and those are just chat interfaces.                                            \nResponsible AI                                            \nUnlike the software solutions of the pre-generative AI \nworld, generative solutions cannot be built, tested, and \nreleased into an ecosystem without continuous \noversight. Continuous governance is mandatory, and \nit’s cultural.",
+    "it’s cultural.                                            \nReadiness                                            \nPreparing an organization for the generative AI world \ndoesn’t mean moonshots and risk, it means foundation \nlaying and learning. Setting up governance now will \npay dividends near and long term.",
+    "PHYSICS\nPART – I\nTEXTBOOK FOR CLASS XII\nReprint 2025-26",
+    "First EditionFirst EditionFirst EditionFirst EditionFirst Edition\nDecember 2006 Pausa 1928\nReprintedReprintedReprintedReprintedReprinted\nDecember 2007, December 2008,\nDecember 2009, January 2011,\nJanuary 2012, November 2012,\nNovember 2013, December 2014,\nDecember 2015, February 2017,\nJanuary 2018, January 2019,\nOctober 2019, August 2021 and\nDecember 2021\nRevised EditionRevised EditionRevised EditionRevised EditionRevised Edition\nNovember 2022 Agrahayana 1944",
+    "November 2022 Agrahayana 1944\nReprintedReprintedReprintedReprintedReprinted\nMarch 2024   Chaitra 1946\nDecember 2024   Pausa 1946\nPD 225T PD 225T PD 225T PD 225T PD 225T HK HKHK HKHK\n© National Council of Educational© National Council of Educational© National Council of Educational© National Council of Educational© National Council of Educational",
+    "Research and Training, 2006, 2022Research and Training, 2006, 2022Research and Training, 2006, 2022Research and Training, 2006, 2022Research and Training, 2006, 2022\n` 155.00 155.00155.00 155.00155.00\nALL RIGHTS RESERVED\nq No part of this publication may be reproduced, stored in a retrieval system or transmitted,\nin any form or by any means, electronic, mechanical, photocopying, recording or otherwise\nwithout the prior permission of the publisher.",
+    "without the prior permission of the publisher.\nq This book is sold subject to the condition that it shall not, by way of trade,  be lent,  re-sold,\nhired out or otherwise disposed of without the publisher’s consent, in any form of binding\nor cover other than that in which it is published.\nq The correct price of this publication is the price printed on this page, Any revised price\nindicated by a rubber stamp or by a sticker or by any other means is incorrect and should\nbe unacceptable.",
+    "be unacceptable.\nOFFICES OF THE PUBLICA TION\nDIVISION, NCERT\nNCERT Campus\nSri Aurobindo Marg\nNew  Delhi 110 016 Phone :  011-26562708\n108, 100 Feet Road\nHosdakere Halli Extension\nBanashankari III Stage\nBengaluru 560 085 Phone : 080-26725740\nNavjivan Trust Building\nP.O.Navjivan\nAhmedabad 380 014 Phone :  079-27541446\nCWC Campus\nOpp. Dhankal Bus Stop\nPanihati\nKolkata 700 114 Phone :  033-25530454\nCWC Complex\nMaligaon\nGuwahati 781 021 Phone :  0361-2674869",
+    "Kolkata 700 114 Phone :  033-25530454\nCWC Complex\nMaligaon\nGuwahati 781 021 Phone :  0361-2674869\nPublication TeamPublication TeamPublication TeamPublication TeamPublication Team\nHead, Publication : M.V. Srinivasan\nDivision\nChief Editor :\nBijnan Sutar\nChief Production : Jahan Lal\nOfficer (In charge)\nChief Business : Amitabh Kumar\nManager\nAssistant Editor :\nR.N. Bhardwaj\nAssistant Production : Deepak Kumar\nOfficer",
+    "Manager\nAssistant Editor :\nR.N. Bhardwaj\nAssistant Production : Deepak Kumar\nOfficer\nCover, LayoutCover, LayoutCover, LayoutCover, LayoutCover, Layout  and Illustrationsand Illustrationsand Illustrationsand Illustrationsand Illustrations\nShweta Rao\n12089 – 12089 – 12089 – 12089 – 12089 – P PPPPHYSICS HYSICSHYSICS HYSICSHYSICS  P   P  P   P  P ART ARTART ARTART I  I I  I I\nTextbook for Class XII ISBN 81-7450-631-4ISBN 81-7450-631-4ISBN 81-7450-631-4ISBN 81-7450-631-4ISBN 81-7450-631-4",
+    "Printed on 80 GSM paper with NCERT\nwatermark\nPublished at the Publication Division by\nthe Secretary, National Council of\nEducational Research and Training,\nSri Aurobindo Marg, New Delhi 110 016 and\nprinted at Manipal T echnologies Limited,\nUdayavani Building, Press C orner ,\nManipal, K arnataka–576104\nReprint 2025-26",
+    "FOREWORD\nThe National Curriculum Framework (NCF), 2005 recommends that children’s life at school must\nbe linked to their life outside the school. This principle marks a departure from the legacy of bookish\nlearning which continues to shape our system and causes a gap between the school, home and\ncommunity. The syllabi and textbooks developed on the basis of NCF signify an attempt to implement\nthis basic idea. They also attempt to discourage rote learning and the maintenance of sharp",
+    "this basic idea. They also attempt to discourage rote learning and the maintenance of sharp\nboundaries between dif ferent subject ar eas. We hope these measur es will take us significantly\nfurther in the direction of a child-centred system of education outlined in the National Policy on\nEducation (NPE), 1986.\nThe success of this effort depends on the steps that school principals and teachers will take to",
+    "The success of this effort depends on the steps that school principals and teachers will take to\nencourage children to reflect on their own learning and to pursue imaginative activities and questions.\nWe must recognise that, given space, time and freedom, children generate new knowledge by engaging\nwith the information passed on to them by adults. Treating the prescribed textbook as the sole basis\nof examination is one of the key reasons why other resources and sites of learning are ignored.",
+    "of examination is one of the key reasons why other resources and sites of learning are ignored.\nInculcating creativity and initiative is possible if we perceive and treat children as participants in\nlearning, not as receivers of a fixed body of knowledge.\nThese aims imply considerable change in school routines and mode of functioning. Flexibility in\nthe daily time-table is as necessary as rigour in implementing the annual calendar so that the",
+    "the daily time-table is as necessary as rigour in implementing the annual calendar so that the\nrequired number of teaching days are actually devoted to teaching. The methods used for teaching\nand evaluation will also determine how effective this textbook proves for making children’s life at\nschool a happy experience, rather than a source of stress or boredom. Syllabus designers have tried\nto address the problem of curricular burden by restructuring and reorienting knowledge at different",
+    "to address the problem of curricular burden by restructuring and reorienting knowledge at different\nstages with greater consideration for child psychology and the time available for teaching. The textbook\nattempts to enhance this endeavour by giving higher priority and space to opportunities for\ncontemplation and wondering, discussion in small groups, and activities requiring hands-on\nexperience.\nThe National Council of Educational Resear ch and T raining (NCER T) appreciates the har d",
+    "The National Council of Educational Resear ch and T raining (NCER T) appreciates the har d\nwork done by the textbook development committee responsible for this book. We wish to thank the\nChairperson of the advisory gr oup in science and mathematics, Pr ofessor J.V. Narlikar and the\nChief Advisor for this book, Pr ofessor A.W. Joshi for guiding the work of this committee. Several\nteachers contributed to the development of this textbook; we are grateful to their principals for",
+    "teachers contributed to the development of this textbook; we are grateful to their principals for\nmaking this possible. We are indebted to the institutions and organisations which have generously\npermitted us to draw upon their resources, material and personnel. We are especially grateful to\nthe members of the National Monitoring Committee, appointed by the Department of Secondary\nand Higher Education, Ministry of Human Resource Development under the Chairpersonship of",
+    "and Higher Education, Ministry of Human Resource Development under the Chairpersonship of\nProfessor Mrinal Miri and Professor G.P. Deshpande, for their valuable time and contribution. As\nan organisation committed to systemic reform and continuous improvement in the quality of its\nproducts, NCERT welcomes comments and suggestions which will enable us to undertake further\nrevision and refinement.\nDirector\nNew Delhi National Council of Educational\n20 December 2006 Research and Training",
+    "Director\nNew Delhi National Council of Educational\n20 December 2006 Research and Training\nReprint 2025-26",
+    "Reprint 2025-26",
+    "RATIONALISATION OF CONTENT IN THE TEXTBOOKS\nIn view of the COVID-19 pandemic, it is imperative to reduce content load on\nstudents. The National Education Policy 2020, also emphasises reducing the\ncontent load and providing opportunities for experiential learning with creative\nmindset. In this background, the NCERT has undertaken the exercise to rationalise\nthe textbooks across all classes. Learning Outcomes already developed by the NCERT",
+    "the textbooks across all classes. Learning Outcomes already developed by the NCERT\nacross classes have been taken into consideration in this exercise.\nContents of the textbooks have been rationalised in view of the following:\n• Overlapping with similar content included in other subject areas in the same\nclass\n• Similar content included in the lower or higher class in the same subject\n• Difficulty level\n• Content, which is easily accessible to students without much interventions",
+    "• Difficulty level\n• Content, which is easily accessible to students without much interventions\nfrom teachers and can be learned by children through self-learning or peer-\nlearning\n• Content, which is irrelevant in the present context\nThis present edition, is a reformatted version after carrying out the changes\ngiven above.\nReprint 2025-26",
+    "Reprint 2025-26",
+    "TEXTBOOK DEVELOPMENT COMMITTEE\nCHAIRPERSON, ADVISORY GROUP FOR TEXTBOOKS IN SCIENCE AND MATHEMATICS\nJ.V. Narlikar, Emeritus Pr ofessor, Inter -University Centr e for Astr onomy and Astrophysics\n(IUCAA), Ganeshkhind, Pune University Campus, Pune\nCHIEF ADVISOR\nA.W. Joshi, Honorary Visiting Scientist, National Centre for Radio Astrophysics (NCRA), Pune\nUniversity Campus, Pune (Formerly Professor at Department of Physics, University of Pune)\nMEMBERS",
+    "University Campus, Pune (Formerly Professor at Department of Physics, University of Pune)\nMEMBERS\nA.K. Ghatak, Emeritus Pr ofessor, Department of Physics, Indian Institute of T echnology,\nNew Delhi\nAlika Khare, Professor, Department of Physics, Indian Institute of Technology, Guwahati\nAnjali Kshirsagar, Reader, Department of Physics, University of Pune, Pune\nAnuradha Mathur, PGT , Modern School, Vasant Vihar, New Delhi",
+    "Anuradha Mathur, PGT , Modern School, Vasant Vihar, New Delhi\nAtul Mody, Lecturer (S.G.), VES College of Arts, Science and Commerce, Mumbai\nB.K. Sharma, Professor, DESM, NCERT, New Delhi\nChitra Goel, PGT, Rajkiya Pratibha Vikas Vidyalaya, Tyagraj Nagar, New Delhi\nGagan Gupta, Reader, DESM, NCERT, New Delhi\nH.C. Pradhan, Professor, Homi Bhabha Centre of Science Education (TIFR), Mumbai\nN. Panchapakesan, Professor (Retd.), Department of Physics and Astrophysics, University of\nDelhi, Delhi",
+    "Delhi, Delhi\nR. Joshi, Lecturer (S.G.), DESM, NCERT, New Delhi\nS.K. Dash, Reader, DESM, NCERT, New Delhi\nS. Rai Choudhary, Professor, Department of Physics and Astrophysics, University of Delhi, Delhi\nS.K. Upadhyay, PGT, Jawahar Navodaya Vidyalaya, Muzaffar Nagar\nS.N. Prabhakara, PGT, DM School,  Regional Institute of Education (NCERT), Mysore\nV.H. Raybagkar, Reader, Nowrosjee Wadia College, Pune\nVishwajeet Kulkarni, Teacher (Grade I), Higher Secondary Section, Smt. Parvatibai Chowgule",
+    "Vishwajeet Kulkarni, Teacher (Grade I), Higher Secondary Section, Smt. Parvatibai Chowgule\nCollege, Margao, Goa\nM\nEMBER-COORDINATOR\nV.P. Srivastava, Reader,  DESM, NCERT, New Delhi\nReprint 2025-26",
+    "Constitution of India\nFundamental Duties\nIt shall be the duty of every citizen of India —\n(a) to abide by the Constitution and respect its ideals and institutions, the\nNational Flag and the National Anthem;\n(b) to cherish and follow the noble ideals which inspired our national struggle\nfor freedom;\n(c) to uphold and protect the sovereignty, unity and integrity of India;\n(d) to defend the country and render national service when called upon to\ndo so;",
+    "(d) to defend the country and render national service when called upon to\ndo so;\n(e) to promote harmony and the spirit of common brotherhood amongst all\nthe people of India transcending religious, linguistic and regional or\nsectional diversities; to renounce practices derogatory to the dignity of\nwomen;\n(f) to value and preserve the rich heritage of our composite culture;\n(g) to protect and improve the natural environment including forests, lakes,",
+    "(g) to protect and improve the natural environment including forests, lakes,\nrivers, wildlife and to have compassion for living creatures;\n(h) to develop the scientific temper, humanism and the spirit of inquiry and\nreform;\n(i) to safeguard public property and to abjure violence;\n(j) to strive towards excellence in all spheres of individual and collective\nactivity so that the nation constantly rises to higher levels of endeavour\nand achievement;",
+    "activity so that the nation constantly rises to higher levels of endeavour\nand achievement;\n*(k) who is a parent or guardian, to provide opportunities for education to\nhis child or , as the case may be, ward between the age of six and\nfourteen years.\nNote: The Article 51A containing Fundamental Duties was inserted by the Constitution\n(42nd Amendment) Act, 1976 (with effect from 3 January 1977).\n*(k) was inserted by the Constitution (86th Amendment) Act, 2002 (with effect from\n1 April 2010).",
+    "*(k) was inserted by the Constitution (86th Amendment) Act, 2002 (with effect from\n1 April 2010).\nPart IV A (Article 51 A)\nReprint 2025-26",
+    "ACKNOWLEDGEMENTS\nThe National Council of Educational Resear ch and T raining acknowledges the valuable\ncontribution of the individuals and organisations involved in the development of Physics Textbook\nfor Class XII. The Council also acknowledges the valuable contribution of the following academics\nfor reviewing and refining the manuscripts of this book:\nAnu Venugopalan, Lecturer, School of Basic and Applied Sciences, GGSIP University, Delhi;",
+    "Anu Venugopalan, Lecturer, School of Basic and Applied Sciences, GGSIP University, Delhi;\nA.K. Das, PGT, St. Xavier’s Senior Secondary School, Delhi; Bharati Kukkal, PGT, Kendriya\nVidyalaya, Pushp V ihar, New Delhi; D.A. Desai, Lecturer (Retd.), Ruparel College, Mumbai;\nDevendra Kumar, PGT, Rajkiya Pratibha Vikas Vidyalaya, Yamuna Vihar, Delhi; I.K. Gogia, PGT,\nKendriya Vidyalaya, Gole Market, New Delhi; K.C. Sharma, Reader, Regional Institute of Education",
+    "Kendriya Vidyalaya, Gole Market, New Delhi; K.C. Sharma, Reader, Regional Institute of Education\n(NCERT), Ajmer; M.K. Nandy, Associate Professor, Department of Physics, Indian Institute of\nT\nechnology, Guwahati; M.N. Bapat, Reader, Regional Institute of Education (NCERT), Mysuru;\nR. Bhattacharjee, Assistant Professor , Department of Electr onics and Communication\nEngineering, Indian Institute of Technology, Guwahati; R.S. Das, Vice-Principal (Retd.), Balwant",
+    "Engineering, Indian Institute of Technology, Guwahati; R.S. Das, Vice-Principal (Retd.), Balwant\nRay Mehta Senior Secondary School, Lajpat Nagar, New Delhi; Sangeeta D. Gadre, Reader, Kirori\nMal College, Delhi; Suresh Kumar, PGT, Delhi Public School, Dwarka, New Delhi; Sushma Jaireth,\nReader, Department of Women’s Studies, NCERT, New Delhi; Shyama Rath, Reader, Department\nof Physics and Astrophysics, University of Delhi, Delhi; Yashu Kumar, PGT, Kulachi Hans Raj",
+    "of Physics and Astrophysics, University of Delhi, Delhi; Yashu Kumar, PGT, Kulachi Hans Raj\nModel School, Ashok Vihar, Delhi.\nThe Council also gratefully acknowledges the valuable contribution of  the following academics\nfor the editing and finalisation of this book: B.B. Tripathi, Professor (Retd.), Department of Physics,\nIndian Institute of Technology, New Delhi; Dipan K. Ghosh, Professor, Department of Physics,",
+    "Indian Institute of Technology, New Delhi; Dipan K. Ghosh, Professor, Department of Physics,\nIndian Institute of Technology, Mumbai; Dipanjan Mitra, Scientist, National Centre for Radio\nAstrophysics (TIFR), Pune; G.K. Mehta, Raja Ramanna Fellow, Inter -University Accelerator\nCentre, New Delhi; G.S. Visweswaran, Professor, Department of Electrical Engineering, Indian\nInstitute of Technology, New Delhi; H.C. Kandpal, Head, Optical Radiation Standards, National",
+    "Institute of Technology, New Delhi; H.C. Kandpal, Head, Optical Radiation Standards, National\nPhysical Laboratory, New Delhi; H.S. Mani, Raja Ramanna Fellow, Institute of Mathematical\nSciences, Chennai; K. Thyagarajan, Professor, Department of Physics, Indian Institute of\nTechnology, New Delhi; P .C. Vinod Kumar, Professor, Department of Physics, Sar dar Patel\nUniversity, Vallabh Vidyanagar, Gujarat; S. Annapoorni, Professor, Department of Physics and",
+    "University, Vallabh Vidyanagar, Gujarat; S. Annapoorni, Professor, Department of Physics and\nAstrophysics, University of Delhi, Delhi; S.C. Dutta Roy, Emeritus Professor, Department of\nElectrical Engineering, Indian Institute of Technology, New Delhi; S.D. Joglekar , Professor,\nDepartment of Physics, Indian Institute of Technology, Kanpur; and V. Sundara Raja, Professor,\nSri Venkateswara University, Tirupati.",
+    "Sri Venkateswara University, Tirupati.\nThe Council also acknowledges the valuable contributions of the following academics for\nrefining the text in 2017: A.K. Srivastava, Assistant Professor, DESM, NCERT, New Delhi; Arnab\nSen, Assistant Professor, NERIE, Shillong; L.S. Chauhan, Assistant Professor, RIE, Bhopal;\nO.N. Awasthi, Pr ofessor (Retd.), RIE, Bhopal; Rachna Gar g, Professor, DESM, NCER T, New\nDelhi; Raman Namboodiri, Assistant Professor, RIE, Mysuru; R.R. Koireng, Assistant Professor,",
+    "Delhi; Raman Namboodiri, Assistant Professor, RIE, Mysuru; R.R. Koireng, Assistant Professor,\nDCS, NCERT, New Delhi; Shashi Prabha, Professor, DESM, NCERT, New Delhi; and S.V. Sharma,\nProfessor, RIE, Ajmer.\nSpecial thanks are due to Hukum Singh, Professor and  Head, DESM, NCERT for his support.\nThe Council also acknowledges the support provided by the APC office and the administrative\nstaff of the DESM; Deepak Kapoor, Incharge, Computer Station; Inder Kumar, DTP Operator;",
+    "staff of the DESM; Deepak Kapoor, Incharge, Computer Station; Inder Kumar, DTP Operator;\nMohd. Qamar Tabrez, Copy Editor; Ashima Srivastava, Proof Reader in shaping this book.\nThe contributions of the Publication Department in bringing out this book are also duly\nacknowledged.\nReprint 2025-26",
+    "CONSTITUTION OF INDIA\nPart III (Articles 12 – 35)\n(Subject to certain conditions, some exceptions\nand reasonable restrictions)\nguarantees these\nFundamental Rights\nRight to Equality\n· before law and equal protection of laws;\n· irrespective of religion, race, caste, sex or place of birth;\n· of opportunity in public employment;\n· by abolition of untouchability and titles.\nRight to Freedom\n· of expression, assembly, association, movement, residence and profession;",
+    "Right to Freedom\n· of expression, assembly, association, movement, residence and profession;\n· of certain protections in respect of conviction for offences;\n· of protection of life and personal liberty;\n· of free and compulsory education for children between the age of six and fourteen years;\n· of protection against arrest and detention in certain cases.\nRight against Exploitation\n· for prohibition of traffic in human beings and forced labour;",
+    "Right against Exploitation\n· for prohibition of traffic in human beings and forced labour;\n· for prohibition of employment of children in hazardous jobs.\nRight to Freedom of Religion\n· freedom of conscience and free profession, practice and propagation of religion;\n· freedom to manage religious affairs;\n· freedom as to payment of taxes for promotion of any particular religion;\n· freedom as to attendance at religious instruction or religious worship in educational",
+    "· freedom as to attendance at religious instruction or religious worship in educational\ninstitutions wholly maintained by the State.\nCultural and Educational Rights\n· for protection of interests of minorities to conserve their language, script and culture;\n· for minorities to establish and administer educational institutions of their choice.\nRight to Constitutional Remedies\n· by issuance of directions or orders or writs by the Supreme Court and High",
+    "· by issuance of directions or orders or writs by the Supreme Court and High\nCourts for enforcement of these Fundamental Rights.\nReprint 2025-26",
+    "PREFACE\nIt gives me pleasure to place this book in the hands of the students, teachers and the public at\nlarge (whose role cannot be overlooked). It is a natural sequel to the Class XI textbook which\nwas brought out in 2006. This book is also a trimmed version of the textbooks which existed so\nfar. The chapter on thermal and chemical effects of current has been cut out. This topic has also\nbeen dropped from the CBSE syllabus. Similarly, the chapter on communications has been",
+    "been dropped from the CBSE syllabus. Similarly, the chapter on communications has been\nsubstantially curtailed. It has been rewritten in an easily comprehensible form.\nAlthough most other chapters have been based on the earlier versions, several parts and\nsections in them have been rewritten. The Development Team has been guided by the feedback\nreceived from innumerable teachers across the country.\nIn producing these books, Class XI as well as Class XII, there has been a basic change of",
+    "In producing these books, Class XI as well as Class XII, there has been a basic change of\nemphasis. Both the books present physics to students without assuming that they would pursue\nthis subject beyond the higher secondary level. This new view has been prompted by the various\nobservations and suggestions made in the National Curriculum Framework (NCF), 2005.\nSimilarly, in today’s educational scenario where students can opt for various combinations of",
+    "Similarly, in today’s educational scenario where students can opt for various combinations of\nsubjects, we cannot assume that a physics student is also studying mathematics. Therefore,\nphysics has to be presented, so to say, in a standalone form.\nAs in Class XI textbook, some interesting box items have been inserted in many chapters.\nThey are not meant for teaching or examinations. Their purpose is to catch the attention of the",
+    "They are not meant for teaching or examinations. Their purpose is to catch the attention of the\nreader, to show some applications in daily life or in other areas of science and technology, to\nsuggest a simple experiment, to show connection of concepts in different areas of physics, and\nin general, to break the monotony and enliven the book.\nFeatures like Summary, Points to Ponder, Exercises and Additional Exercises at the end of",
+    "Features like Summary, Points to Ponder, Exercises and Additional Exercises at the end of\neach chapter, and Examples have been retained. Several concept-based Exercises have been\ntransferred from end-of-chapter Exercises to Examples with Solutions in the text. It is hoped\nthat this will make the concepts discussed in the chapter more comprehensible. Several new\nexamples and exercises have been added. Students wishing to pursue physics further would",
+    "examples and exercises have been added. Students wishing to pursue physics further would\nfind Points to Ponder and Additional Exercises very useful and thoughtful. To provide resources\nbeyond the textbook  and to encourage eLearning, each chapter has been pr ovided with\nsome relevant website addresses under the title ePhysics. These sites provide additional\nmaterial on specific topics and also provide learners with opportunites for interactive\ndemonstrations/experiments.",
+    "demonstrations/experiments.\nThe intricate concepts of physics must be understood, comprehended and appreciated.\nStudents must learn to ask questions like ‘why’, ‘how’, ‘how do we know it’. They will find\nalmost always that the question ‘why’ has no answer within the domain of physics and science\nin general. But that itself is a learning experience, is it not? On the other hand, the question\n‘how’ has been reasonably well answered by physicists in the case of most natural phenomena.",
+    "‘how’ has been reasonably well answered by physicists in the case of most natural phenomena.\nIn fact, with the understanding of how things happen, it has been possible to make use of many\nphenomena to create technological applications for the use of humans.\nFor example, consider statements in a book, like ‘A negatively charged electron is attracted\nby the positively charged plate’, or ‘In this experiment, light (or electron) behaves like a wave’.",
+    "by the positively charged plate’, or ‘In this experiment, light (or electron) behaves like a wave’.\nYou will realise that it is not possible to answer ‘why’. This question belongs to the domain of\nphilosophy or metaphysics. But we can answer ‘how’, we can find the force acting, we can find\nReprint 2025-26",
+    "the wavelength of the photon (or electron), we can determine how things behave under different\nconditions, and we can develop instruments which will use these phenomena to our advantage.\nIt has been a pleasure to work for these books at the higher secondary level, along with a\nteam of members. The Textbook Development Team, Review Team and Editing Teams involved\ncollege and university teachers, teachers from Indian Institutes of Technology, scientists from",
+    "college and university teachers, teachers from Indian Institutes of Technology, scientists from\nnational institutes and laboratories, as well as, higher secondary teachers. The feedback and\ncritical look provided by higher secondary teachers in the various teams are highly laudable.\nMost box items were generated by members of one or the other team, but three of them were\ngenerated by friends and well-wishers not part of any team. We are thankful to Dr P.N. Sen of",
+    "generated by friends and well-wishers not part of any team. We are thankful to Dr P.N. Sen of\nPune, Professor Roopmanjari Ghosh of Delhi and Dr Rajesh B Khaparde of Mumbai for allowing\nus to use their box items, respectively, in Chapters 3, 4 (Part I) and 9 (Part II). We are thankful\nto the members of the review and editing workshops to discuss and refine the first draft of the\ntextbook.  We also express our gratitude to Prof. Krishna Kumar, Director, NCERT, for entrusting",
+    "textbook.  We also express our gratitude to Prof. Krishna Kumar, Director, NCERT, for entrusting\nus with the task of presenting this textbook as a part of the national effort for improving science\neducation. I also thank Pr of. G. Ravindra, Joint Director, NCERT,  for his help from time-to-\ntime. Prof. Hukum Singh, Head, Department of Education in Science and Mathematics, NCERT,\nwas always willing to help us in our endeavour in every possible way.",
+    "was always willing to help us in our endeavour in every possible way.\nWe welcome suggestions and comments fr om our valued users, especially students and\nteachers. We wish our young readers a happy journey into the exciting realm of physics.\nA. W. JOSHI\nChief Advisor\nTextbook Development Committee\nxii\nReprint 2025-26",
+    "CONTENTS\nFOREWORD iii\nRATIONALISATION OF CONTENT IN THE TEXTBOOKS v\nCHAPTER ONE\nELECTRIC CHARGES AND FIELDS\n1.1 Introduction 1\n1.2 Electric Charge 1\n1.3 Conductors and Insulators 3\n1.4 Basic Properties of Electric Charge 4\n1.5 Coulomb’s Law 6\n1.6 Forces between Multiple Charges 11\n1.7 Electric Field 14\n1.8 Electric Field Lines 19\n1.9 Electric Flux 21\n1.10 Electric Dipole 23\n1.11 Dipole in a Uniform External Field 27\n1.12 Continuous Charge Distribution 28\n1.13 Gauss’s Law 29",
+    "1.12 Continuous Charge Distribution 28\n1.13 Gauss’s Law 29\n1.14 Applications of Gauss’s Law 33\nCHAPTER TWO\nELECTROSTATIC POTENTIAL AND CAPACITANCE\n2.1 Introduction 45\n2.2 Electrostatic Potential 47\n2.3 Potential due to a Point Charge 48\n2.4 Potential due to an Electric Dipole 49\n2.5 Potential due to a System of Charges 51\n2.6 Equipotential Surfaces 54\n2.7 Potential Energy of a System of Charges 55\n2.8 Potential Energy in an External Field 58\n2.9 Electrostatics of Conductors 61",
+    "2.8 Potential Energy in an External Field 58\n2.9 Electrostatics of Conductors 61\n2.10 Dielectrics and Polarisation 65\n2.11 Capacitors and Capacitance 67\n2.12 The Parallel Plate Capacitor 68\n2.13 Effect of Dielectric on Capacitance 69\n2.14 Combination of Capacitors 71\n2.15 Energy Stored in a Capacitor 73\nReprint 2025-26",
+    "CHAPTER THREE\nCURRENT ELECTRICITY\n3.1 Introduction 81\n3.2 Electric Current 81\n3.3 Electric Currents in Conductors 82\n3.4 Ohm’s law 83\n3.5 Drift of Electrons and the Origin of Resistivity 85\n3.6 Limitations of Ohm’s Law 89\n3.7 Resistivity of V arious Materials 89\n3.8 Temperature Dependence of Resistivity 90\n3.9 Electrical Energy, Power 92\n3.10 Cells, emf, Internal Resistance 93\n3.11 Cells in Series and in Parallel 95\n3.12 Kirchhoff’s Rules 97\n3.13 Wheatstone Bridge 100\nCHAPTER FOUR",
+    "3.12 Kirchhoff’s Rules 97\n3.13 Wheatstone Bridge 100\nCHAPTER FOUR\nMOVING CHARGES AND MAGNETISM\n4.1 Introduction 107\n4.2 Magnetic Force 108\n4.3 Motion in a Magnetic Field 112\n4.4 Magnetic Field due to a Current Element, Biot-Savart Law 113\n4.5 Magnetic Field on the Axis of a Circular Current Loop 115\n4.6 Ampere’s Circuital Law 117\n4.7 The Solenoid 121\n4.8 Force between Two Parallel Currents, the Ampere 122\n4.9 Torque on Current Loop, Magnetic Dipole 124\n4.10 The Moving Coil Galvanometer 129",
+    "4.9 Torque on Current Loop, Magnetic Dipole 124\n4.10 The Moving Coil Galvanometer 129\nCHAPTER FIVE\nMAGNETISM AND MATTER\n5.1 Introduction 136\n5.2 The Bar Magnet 137\n5.3 Magnetism and Gauss’s Law 142\n5.4 Magnetisation and Magnetic Intensity 145\n5.5 Magnetic Properties of Materials 147\nxiv\nReprint 2025-26",
+    "CHAPTER SIX\nELECTROMAGNETIC INDUCTION\n6.1 Introduction 154\n6.2 The Experiments of Faraday and Henry 155\n6.3 Magnetic Flux 156\n6.4 Faraday’s Law of Induction 157\n6.5 Lenz’s Law and Conservation of Energy 160\n6.6 Motional Electromotive Force 162\n6.7 Inductance 165\n6.8 AC Generator 170\nCHAPTER SEVEN\nALTERNATING CURRENT\n7.1 Introduction 177\n7.2 AC Voltage Applied to a Resistor 178\n7.3 Representation of AC Curr ent and V oltage by\nRotating V ectors — Phasors 181",
+    "7.3 Representation of AC Curr ent and V oltage by\nRotating V ectors — Phasors 181\n7.4 AC Voltage Applied to an Inductor 181\n7.5 AC Voltage Applied to a Capacitor 184\n7.6 AC Voltage Applied to a Series LCR Cir cuit 186\n7.7 Power in AC Circuit: The Power Factor 190\n7.8 Transfor mers 194\nCHAPTER EIGHT\nELECTROMAGNETIC WAVES\n8.1 Introduction 201\n8.2 Displacement Current 202\n8.3 Electromagnetic W aves 205\n8.4 Electromagnetic Spectrum 208\nANSWERS 215\nxv\nReprint 2025-26",
+    "COVER DESIGN\n(Adapted from http://nobelprize.org and\nthe Nobel Prize in Physics 2006)\nDifferent stages in the evolution of\nthe universe.\nBACK COVER\n(Adapted from http://www.iter.org and\nhttp://www.dae.gov.in)\nCut away view of International Thermonuclear Experimental Reactor (ITER)\ndevice. The man in the bottom shows the scale.\nITER is a joint international research and development project that\naims to demonstrate the scientific and technical feasibility of fusion power.",
+    "aims to demonstrate the scientific and technical feasibility of fusion power.\nIndia is one of the seven full partners in the project, the others being\nthe European Union (represented by EURATOM), Japan, the People’s\nRepublic of China, the Republic of Korea, the Russian Federation and the\nUSA. ITER will be constructed in Europe, at Cadarache in the South of\nFrance and will provide 500 MW of fusion power.\nFusion is the energy source of the sun and the stars. On earth, fusion",
+    "Fusion is the energy source of the sun and the stars. On earth, fusion\nresearch is aimed at demonstrating that this energy source can be used to\nproduce electricity in a safe and environmentally benign way, with\nabundant fuel resources, to meet the needs of a growing world population.\nFor details of India’s r ole, see Nuclear India , Vol. 39, Nov. 11-12/\nMay-June 2006, issue available at Department of Atomic Energy (DAE)\nwebsite mentioned above.\nReprint 2025-26"
+  ],
+  "metas": [
+    {
+      "source": "ai_regulation_india.txt",
+      "chunk_id": 0
+    },
+    {
+      "source": "ai_regulation_india.txt",
+      "chunk_id": 1
+    },
+    {
+      "source": "ai_regulation_india.txt",
+      "chunk_id": 2
+    },
+    {
+      "source": "ai_regulation_india.txt",
+      "chunk_id": 3
+    },
+    {
+      "source": "langgraph_notes.txt",
+      "chunk_id": 0
+    },
+    {
+      "source": "langgraph_notes.txt",
+      "chunk_id": 1
+    },
+    {
+      "source": "langgraph_notes.txt",
+      "chunk_id": 2
+    },
+    {
+      "source": "ml_diabetes_notes.txt",
+      "chunk_id": 0
+    },
+    {
+      "source": "ml_diabetes_notes.txt",
+      "chunk_id": 1
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 0
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 1
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 2
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 3
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 4
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 5
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 6
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 7
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 8
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 9
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 10
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 11
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 12
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 13
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 14
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 15
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 16
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 17
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 18
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 19
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 20
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 21
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 22
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 23
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 24
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 25
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 26
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 27
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 28
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 29
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 30
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 31
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 32
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 33
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 34
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 35
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 36
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 37
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 38
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 39
+    },
+    {
+      "source": "Agentic-AI-PDF.pdf",
+      "chunk_id": 40
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 0
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 1
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 2
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 3
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 4
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 5
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 6
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 7
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 8
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 9
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 10
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 11
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 12
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 13
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 14
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 15
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 16
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 17
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 18
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 19
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 20
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 21
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 22
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 23
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 24
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 25
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 26
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 27
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 28
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 29
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 30
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 31
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 32
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 33
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 34
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 35
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 36
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 37
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 38
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 39
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 40
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 41
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 42
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 43
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 44
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 45
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 46
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 47
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 48
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 49
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 50
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 51
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 52
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 53
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 54
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 55
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 56
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 57
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 58
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 59
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 60
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 61
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 62
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 63
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 64
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 65
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 66
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 67
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 68
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 69
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 70
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 71
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 72
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 73
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 74
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 75
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 76
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 77
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 78
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 79
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 80
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 81
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 82
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 83
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 84
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 85
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 86
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 87
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 88
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 89
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 90
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 91
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 92
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 93
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 94
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 95
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 96
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 97
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 98
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 99
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 100
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 101
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 102
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 103
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 104
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 105
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 106
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 107
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 108
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 109
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 110
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 111
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 112
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 113
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 114
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 115
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 116
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 117
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 118
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 119
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 120
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 121
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 122
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 123
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 124
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 125
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 126
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 127
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 128
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 129
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 130
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 131
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 132
+    },
+    {
+      "source": "generative-ai-handbook.pdf",
+      "chunk_id": 133
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 0
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 1
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 2
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 3
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 4
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 5
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 6
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 7
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 8
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 9
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 10
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 11
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 12
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 13
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 14
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 15
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 16
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 17
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 18
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 19
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 20
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 21
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 22
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 23
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 24
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 25
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 26
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 27
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 28
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 29
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 30
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 31
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 32
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 33
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 34
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 35
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 36
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 37
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 38
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 39
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 40
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 41
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 42
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 43
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 44
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 45
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 46
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 47
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 48
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 49
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 50
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 51
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 52
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 53
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 54
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 55
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 56
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 57
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 58
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 59
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 60
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 61
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 62
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 63
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 64
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 65
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 66
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 67
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 68
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 69
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 70
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 71
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 72
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 73
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 74
+    },
+    {
+      "source": "PhysicsBook.pdf",
+      "chunk_id": 75
+    }
+  ]
+}

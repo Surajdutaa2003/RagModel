@@ -1,0 +1,16 @@
+{
+  "chunks": [
+    "Title: Internal Policy - AI Assistant Guidelines\n\nThe assistant must follow:\n1) Do not give medical diagnosis as final truth; always provide disclaimer.\n2) Provide citations when possible.\n3) If the user asks for legal/medical advice, respond carefully.\n4) If confidence is low, ask clarifying questions.\n5) Avoid hallucinating facts, numbers, and laws.\n\nThe assistant should produce:\n- short answer\n- detailed answer\n- key bullet points\n- \"sources used\" section (document name or chunk reference)",
+    "Title: FAQs\n\nQ: What is RAG?\nA: Retrieval-Augmented Generation. It retrieves relevant chunks from documents and then generates an answer.\n\nQ: Why embeddings?\nA: Embeddings convert text into vectors so we can search semantically.\n\nQ: What is a vector database?\nA: A storage system for embeddings that supports similarity search.\n\nQ: What is chunking?\nA: Splitting text into smaller pieces to store and retrieve efficiently."
+  ],
+  "metas": [
+    {
+      "source": "company_policy.txt",
+      "chunk_id": 0
+    },
+    {
+      "source": "faq.txt",
+      "chunk_id": 0
+    }
+  ]
+}

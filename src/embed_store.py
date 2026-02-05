@@ -1,10 +1,9 @@
-
 import os
 import json
 import requests
 import numpy as np
 import faiss
-from dotenv import load_dotenv 
+from dotenv import load_dotenv
 from pathlib import Path
 from pypdf import PdfReader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -35,15 +34,14 @@ JINA_ENDPOINT = os.getenv(
 )
 
 # -----------------------------
-# Paths
+# Paths (now per category)
 # -----------------------------
 STORE_DIR = BASE_DIR / "vector_store"
-INDEX_PATH = STORE_DIR / "faiss.index"
-META_PATH = STORE_DIR / "meta.json"
+STORE_DIR.mkdir(exist_ok=True)
 DATA_DIR = BASE_DIR / "data"
 
 # -----------------------------
-# Chunking (now recursive)
+# Chunking (recursive)
 # -----------------------------
 def chunk_text(
     text: str,
@@ -51,9 +49,6 @@ def chunk_text(
     chunk_size: int = 500,
     chunk_overlap: int = 100,
 ):
-    """
-    Break text into meaningful chunks using recursive splitter + attach metadata
-    """
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=chunk_size,
         chunk_overlap=chunk_overlap,
@@ -70,8 +65,6 @@ def chunk_text(
             "source": source,
             "chunk_id": i
         })
-        
-        
     
     return chunks, metas
 
@@ -80,7 +73,6 @@ def chunk_text(
 # -----------------------------
 def get_embeddings(
     texts: list[str],
-    
     model: str = "jina-embeddings-v2-base-en"
 ):
     headers = {
@@ -110,88 +102,92 @@ def get_embeddings(
     return embeddings
 
 # -----------------------------
-# Build Vector Store
+# Build Multiple Vector Stores
 # -----------------------------
 def build_vector_store():
     if not JINA_API_KEY:
         raise Exception("❌ Missing JINA_API_KEY in .env")
 
-    STORE_DIR.mkdir(exist_ok=True)
+    # Create sub-folders for each store
+    company_dir = STORE_DIR / "company_store"
+    technical_dir = STORE_DIR / "technical_store"
+    company_dir.mkdir(exist_ok=True)
+    technical_dir.mkdir(exist_ok=True)
 
-    # 1️⃣ Load documents
+    # Company store files
+    company_index_path = company_dir / "faiss.index"
+    company_meta_path = company_dir / "meta.json"
+
+    # Technical store files
+    technical_index_path = technical_dir / "faiss.index"
+    technical_meta_path = technical_dir / "meta.json"
+
+    # Load all files
     docs = list(DATA_DIR.glob("*.txt")) + list(DATA_DIR.glob("*.pdf"))
     if not docs:
         raise Exception(f"❌ No .txt or .pdf files found in {DATA_DIR}")
 
-    all_chunks = []
-    all_metas = []
+    # Separate into categories
+    company_chunks = []
+    company_metas = []
+    technical_chunks = []
+    technical_metas = []
 
     for doc_path in docs:
-        if doc_path.suffix.lower() == ".pdf":
-            text = read_pdf(doc_path)
+        filename = doc_path.name.lower()
+        if "company" in filename or "faq" in filename:
+            # Company category
+            text = read_pdf(doc_path) if doc_path.suffix.lower() == ".pdf" else doc_path.read_text(encoding="utf-8")
+            if not text.strip():
+                print(f"⚠️ Skipping empty company file: {doc_path.name}")
+                continue
+            chunks, metas = chunk_text(text, doc_path.name)
+            company_chunks.extend(chunks)
+            company_metas.extend(metas)
+            print(f"   - Company: {doc_path.name} ({len(chunks)} chunks)")
         else:
-            text = doc_path.read_text(encoding="utf-8")
-        
-        if not text.strip():
-            print(f"⚠️ Skipping empty file: {doc_path.name}")
-            continue
+            # Technical category (default for all others)
+            text = read_pdf(doc_path) if doc_path.suffix.lower() == ".pdf" else doc_path.read_text(encoding="utf-8")
+            if not text.strip():
+                print(f"⚠️ Skipping empty technical file: {doc_path.name}")
+                continue
+            chunks, metas = chunk_text(text, doc_path.name)
+            technical_chunks.extend(chunks)
+            technical_metas.extend(metas)
+            print(f"   - Technical: {doc_path.name} ({len(chunks)} chunks)")
 
-        chunks, metas = chunk_text(
-            text=text,
-            source=doc_path.name
+    print(f"✅ Company chunks: {len(company_chunks)}")
+    print(f"✅ Technical chunks: {len(technical_chunks)}")
+
+    # Build company store
+    if company_chunks:
+        company_vectors = np.array(get_embeddings(company_chunks)).astype("float32")
+        company_dim = company_vectors.shape[1]
+        company_index = faiss.IndexFlatL2(company_dim)
+        company_index.add(company_vectors)
+        faiss.write_index(company_index, str(company_index_path))
+        meta_company = {"chunks": company_chunks, "metas": company_metas}
+        company_meta_path.write_text(
+            json.dumps(meta_company, indent=2, ensure_ascii=False),
+            encoding="utf-8"
         )
+        print(f"💾 Saved company store: {company_index_path}")
 
-        all_chunks.extend(chunks)
-        all_metas.extend(metas)
-
-        print(f"   - Loaded: {doc_path.name} ({len(chunks)} chunks)")
-
-    print(f"✅ Loaded {len(docs)} documents")
-    print(f"✅ Total Chunks Created: {len(all_chunks)}")
-
-    if not all_chunks:
-        raise Exception("No chunks generated from documents")
-
-    # 2️⃣ Generate embeddings (batched)
-    all_embeddings = []
-    batch_size = 16
-
-    for i in range(0, len(all_chunks), batch_size):
-        batch = all_chunks[i:i + batch_size]
-        print(
-            f"🔄 Embedding batch {i // batch_size + 1} / "
-            f"{(len(all_chunks) - 1) // batch_size + 1}"
+    # Build technical store
+    if technical_chunks:
+        technical_vectors = np.array(get_embeddings(technical_chunks)).astype("float32")
+        technical_dim = technical_vectors.shape[1]
+        technical_index = faiss.IndexFlatL2(technical_dim)
+        technical_index.add(technical_vectors)
+        faiss.write_index(technical_index, str(technical_index_path))
+        meta_technical = {"chunks": technical_chunks, "metas": technical_metas}
+        technical_meta_path.write_text(
+            json.dumps(meta_technical, indent=2, ensure_ascii=False),
+            encoding="utf-8"
         )
+        print(f"💾 Saved technical store: {technical_index_path}")
 
-        emb = get_embeddings(batch)
-        all_embeddings.extend(emb)
-
-    vectors = np.array(all_embeddings).astype("float32")
-    dim = vectors.shape[1]
-    print(f"✅ Embeddings shape: {vectors.shape}")
-
-    # 3️⃣ Build FAISS index
-    index = faiss.IndexFlatL2(dim)
-    index.add(vectors)
-    print(f"✅ FAISS index built. Total vectors: {index.ntotal}")
-
-    # 4️⃣ Save FAISS index
-    faiss.write_index(index, str(INDEX_PATH))
-    print(f"💾 Saved FAISS index to: {INDEX_PATH}")
-
-    # 5️⃣ Save metadata
-    meta = {
-        "chunks": all_chunks,
-        "metas": all_metas
-    }
-
-    META_PATH.write_text(
-        json.dumps(meta, indent=2, ensure_ascii=False),
-        encoding="utf-8"
-    )
-    print(f"💾 Saved metadata to: {META_PATH}")
-
-    print("\n🎉 Vector store build complete!")
+    print("\n🎉 Multiple vector stores build complete!")
 
 # -----------------------------
 # Entry

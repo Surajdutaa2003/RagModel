@@ -1,7 +1,7 @@
 """
 Agentic RAG Workflow with:
 - FAISS retrieval
-- LLM re-ranking → now replaced with Cross-Encoder (faster)
+- LLM re-ranking -> now replaced with Cross-Encoder (faster)
 - Hybrid retrieval (vector + BM25)
 - Proper citations (file + chunk_id)
 """
@@ -9,7 +9,7 @@ Agentic RAG Workflow with:
 import os
 import json
 from pathlib import Path
-from typing import TypedDict, List, Annotated, Optional
+from typing import TypedDict, List, Annotated, Dict, Tuple
 
 import numpy as np
 import faiss
@@ -22,6 +22,11 @@ from langchain_openai import AzureChatOpenAI
 from langchain_community.embeddings import JinaEmbeddings
 from langchain_community.retrievers.bm25 import BM25Retriever
 from langchain_core.retrievers import BaseRetriever
+try:
+    # Pydantic v2
+    from pydantic import ConfigDict
+except Exception:
+    ConfigDict = None
 try:
     # Newer langchain package
     from langchain.retrievers import EnsembleRetriever
@@ -37,9 +42,13 @@ from langgraph.graph import StateGraph, START, END
 from langgraph.graph.message import add_messages
 from langgraph.prebuilt import ToolNode
 try:
+    from langchain_community.llms import LlamaCpp
+except Exception:
+    LlamaCpp = None
+try:
     from sentence_transformers import CrossEncoder
     # Cross-Encoder for reranking (fast & accurate)
-    cross_encoder = CrossEncoder('cross-encoder/ms-marco-MiniLM-L-6-v2')
+    cross_encoder = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
 except Exception:
     cross_encoder = None
 
@@ -52,8 +61,7 @@ load_dotenv(BASE_DIR / ".env")
 # --------------------------------------------------
 # Paths
 # --------------------------------------------------
-FAISS_INDEX_PATH = BASE_DIR / "vector_store" / "faiss.index"
-META_PATH = BASE_DIR / "vector_store" / "meta.json"
+VECTOR_STORE_DIR = BASE_DIR / "vector_store"
 
 # --------------------------------------------------
 # Models
@@ -65,6 +73,17 @@ llm = AzureChatOpenAI(
     api_key=os.getenv("AZURE_OPENAI_API_KEY"),
     temperature=0.0,
 )
+USE_QUANTIZED_LLM = os.getenv("USE_QUANTIZED_LLM", "0") == "1"
+QUANTIZED_LLM_PATH = os.getenv("QUANTIZED_LLM_PATH", "").strip()
+
+if USE_QUANTIZED_LLM and QUANTIZED_LLM_PATH and LlamaCpp is not None:
+    answer_llm = LlamaCpp(
+        model_path=QUANTIZED_LLM_PATH,
+        temperature=0.0,
+        n_ctx=4096,
+    )
+else:
+    answer_llm = llm
 
 embeddings = JinaEmbeddings(
     jina_api_key=os.getenv("JINA_API_KEY"),
@@ -75,49 +94,103 @@ embeddings = JinaEmbeddings(
 # --------------------------------------------------
 # Load Vector Store
 # --------------------------------------------------
-def load_vector_store():
-    index = faiss.read_index(str(FAISS_INDEX_PATH))
-    meta = json.loads(META_PATH.read_text(encoding="utf-8"))
+def _discover_store_dirs() -> List[Path]:
+    if VECTOR_STORE_DIR.exists():
+        dirs = [
+            p for p in VECTOR_STORE_DIR.iterdir()
+            if p.is_dir() and (p / "faiss.index").exists() and (p / "meta.json").exists()
+        ]
+        if dirs:
+            return dirs
+
+    # Fallback to single-store layout at vector_store/*
+    if (VECTOR_STORE_DIR / "faiss.index").exists() and (VECTOR_STORE_DIR / "meta.json").exists():
+        return [VECTOR_STORE_DIR]
+
+    return []
+
+
+def load_vector_store(store_dir: Path) -> Tuple[faiss.Index, List[str], List[dict]]:
+    index = faiss.read_index(str(store_dir / "faiss.index"))
+    meta = json.loads((store_dir / "meta.json").read_text(encoding="utf-8"))
     return index, meta["chunks"], meta["metas"]
 
-INDEX, CHUNKS, METAS = load_vector_store()
+
+STORE_DIRS = _discover_store_dirs()
+if not STORE_DIRS:
+    raise FileNotFoundError(
+        "No vector stores found. Expected vector_store/<store>/faiss.index and meta.json"
+    )
+
+STORES: Dict[str, Dict[str, object]] = {}
+for store_dir in STORE_DIRS:
+    name = store_dir.name
+    index, chunks, metas = load_vector_store(store_dir)
+    # Stamp store name into metadata for citations/merging
+    stamped_metas = []
+    for m in metas:
+        stamped = dict(m)
+        stamped["store"] = name
+        stamped_metas.append(stamped)
+    STORES[name] = {
+        "index": index,
+        "chunks": chunks,
+        "metas": stamped_metas,
+    }
 
 # --------------------------------------------------
 # FAISS Retrieval (vector part)
 # --------------------------------------------------
-def retrieve(question: str, top_k: int = 10):
+def retrieve(question: str, index, chunks, metas, top_k: int = 10):
     q_embed = np.array([embeddings.embed_query(question)]).astype("float32")
-    distances, indices = INDEX.search(q_embed, top_k)
+    distances, indices = index.search(q_embed, top_k)
 
     results = []
     for rank, idx in enumerate(indices[0], start=1):
         if idx == -1:
             continue
-        meta = METAS[idx]
+        meta = metas[idx]
         results.append({
             "rank": rank,
-            "text": CHUNKS[idx],
+            "text": chunks[idx],
             "source": meta["source"],
             "chunk_id": meta["chunk_id"],
+            "store": meta.get("store"),
             "distance": float(distances[0][rank - 1]),
         })
     return results
+
 
 # --------------------------------------------------
 # Hybrid Retrieval (Vector + BM25)
 # --------------------------------------------------
 class FAISSRetriever(BaseRetriever):
+    if ConfigDict is not None:
+        model_config = ConfigDict(arbitrary_types_allowed=True)
+
+    index: object
+    chunks: List[str]
+    metas: List[dict]
+    store_name: str
+
     def _get_relevant_documents(self, query: str):
-        results = retrieve(query, top_k=10)
+        results = retrieve(query, self.index, self.chunks, self.metas, top_k=10)
         return [Document(page_content=r["text"], metadata=r) for r in results]
 
-def get_hybrid_retriever():
-    vector_ret = FAISSRetriever()
+
+def get_hybrid_retriever(store_name: str):
+    store = STORES[store_name]
+    vector_ret = FAISSRetriever(
+        index=store["index"],
+        chunks=store["chunks"],
+        metas=store["metas"],
+        store_name=store_name,
+    )
 
     try:
         bm25_ret = BM25Retriever.from_texts(
-            texts=CHUNKS,
-            metadatas=METAS
+            texts=store["chunks"],
+            metadatas=store["metas"]
         )
         bm25_ret.k = 10
 
@@ -125,18 +198,50 @@ def get_hybrid_retriever():
             retrievers=[vector_ret, bm25_ret],
             weights=[0.4, 0.6]  # 40% vector, 60% keyword - tune as needed
         )
-        print("✅ BM25 Hybrid Retriever initialized successfully (Vector 40% + BM25 60%)")
+        print(f"BM25 Hybrid Retriever initialized for {store_name} (Vector 40% + BM25 60%)")
         return hybrid_ret
     except Exception as e:
-        # BM25 (rank_bm25) not available – fall back to vector-only retriever
-        print(f"⚠️ BM25 not available; using vector-only retriever (install 'rank_bm25' to enable BM25).")
-        print(f"   Error: {e}")
+        # BM25 (rank_bm25) not available - fall back to vector-only retriever
+        print(f"BM25 not available for {store_name}; using vector-only retriever (install 'rank_bm25' to enable BM25).")
+        print(f"Error: {e}")
         return vector_ret
+
+
+class MultiStoreRetriever(BaseRetriever):
+    if ConfigDict is not None:
+        model_config = ConfigDict(arbitrary_types_allowed=True)
+
+    retrievers: List[BaseRetriever]
+
+    def _get_relevant_documents(self, query: str):
+        docs = []
+        for r in self.retrievers:
+            docs.extend(r.invoke(query))
+        # Deduplicate by store/source/chunk_id
+        seen = set()
+        deduped = []
+        for d in docs:
+            key = (
+                d.metadata.get("store"),
+                d.metadata.get("source"),
+                d.metadata.get("chunk_id"),
+            )
+            if key in seen:
+                continue
+            seen.add(key)
+            deduped.append(d)
+        return deduped
+
+
+def get_merger_retriever():
+    per_store = [get_hybrid_retriever(name) for name in STORES.keys()]
+    return MultiStoreRetriever(retrievers=per_store)
+
 
 # --------------------------------------------------
 # Re-ranking with Cross-Encoder (or embeddings fallback)
 # --------------------------------------------------
-def rerank(question: str, chunks: List[dict], keep_top: int = 3):
+def rerank(question: str, chunks: List[dict], keep_top: int = 6):
     if not chunks:
         return []
 
@@ -154,9 +259,69 @@ def rerank(question: str, chunks: List[dict], keep_top: int = 3):
 
     # Sort by score descending
     sorted_pairs = sorted(zip(scores, chunks), key=lambda x: x[0], reverse=True)
-    reranked = [chunk for _, chunk in sorted_pairs[:keep_top]]
+    reranked = []
+    for score, chunk in sorted_pairs[:keep_top]:
+        enriched = dict(chunk)
+        enriched["score"] = float(score)
+        reranked.append(enriched)
     return reranked
 
+
+def long_context_reorder(chunks: List[dict]) -> List[dict]:
+    """
+    Place the most relevant chunks at the beginning and end to reduce
+    lost-in-the-middle effects.
+    """
+    if not chunks:
+        return []
+
+    left = []
+    right = []
+    for i, ch in enumerate(chunks):
+        if i % 2 == 0:
+            left.append(ch)
+        else:
+            right.append(ch)
+    return left + list(reversed(right))
+
+
+def _split_sentences(text: str) -> List[str]:
+    # Lightweight splitter to avoid extra deps
+    lines = [l.strip() for l in text.replace("\n", " ").split(". ") if l.strip()]
+    sentences = []
+    for l in lines:
+        if not l.endswith("."):
+            l = l + "."
+        sentences.append(l)
+    return sentences
+
+
+def compress_chunks(question: str, chunks: List[dict], max_sentences_per_chunk: int = 3) -> List[dict]:
+    if not chunks:
+        return []
+
+    q_emb = np.array(embeddings.embed_query(question)).astype("float32")
+    q_norm = q_emb / (np.linalg.norm(q_emb) + 1e-12)
+
+    compressed = []
+    for ch in chunks:
+        sentences = _split_sentences(ch["text"])
+        if not sentences:
+            compressed.append(ch)
+            continue
+        s_emb = np.array(embeddings.embed_documents(sentences)).astype("float32")
+        s_norm = s_emb / (np.linalg.norm(s_emb, axis=1, keepdims=True) + 1e-12)
+        scores = (s_norm @ q_norm).tolist()
+
+        # Select top sentences by score, keep original order
+        top_idx = sorted(
+            sorted(range(len(scores)), key=lambda i: scores[i], reverse=True)[:max_sentences_per_chunk]
+        )
+        kept = " ".join([sentences[i] for i in top_idx]).strip()
+        new_chunk = dict(ch)
+        new_chunk["text"] = kept if kept else ch["text"]
+        compressed.append(new_chunk)
+    return compressed
 
 
 # --------------------------------------------------
@@ -164,12 +329,11 @@ def rerank(question: str, chunks: List[dict], keep_top: int = 3):
 # --------------------------------------------------
 @tool
 def rag_search(question: str) -> str:
-    
     """
-    Hybrid search (vector + BM25), rerank with Cross-Encoder, return formatted context.
+    Multi-store retrieval -> Merger -> Re-rank -> Long-context reorder -> Compression.
     """
-    hybrid_retriever = get_hybrid_retriever()
-    docs = hybrid_retriever.invoke(question)
+    merger = get_merger_retriever()
+    docs = merger.invoke(question)
 
     chunks = [
         {
@@ -186,26 +350,25 @@ def rag_search(question: str) -> str:
 
     # Rerank with Cross-Encoder
     top = rerank(question, chunks)
-
-    # Weak context check (optional - keep your threshold logic if you want)
-    # avg_distance = sum(r["distance"] for r in top) / len(top) if top else 0
-    # if avg_distance > 0.65:
-    #     # refinement logic...
+    reordered = long_context_reorder(top)
+    compressed = compress_chunks(question, reordered)
 
     blocks = []
-    for r in top:
+    for r in compressed:
         blocks.append(
-            f"[Source: {r['source']} | chunk {r['chunk_id']}]\n"
+            f"[Source: {r['source']} | chunk {r['chunk_id']} | store {r.get('store', 'default')}]\n"
             f"{r['text'].strip()}"
         )
 
-    return "\n\n──────────\n\n".join(blocks)
+    return "\n\n----------\n\n".join(blocks)
+
 
 # --------------------------------------------------
 # State
 # --------------------------------------------------
 class AgentState(TypedDict):
     messages: Annotated[List[BaseMessage], add_messages]
+
 
 # --------------------------------------------------
 # Agent Node
@@ -217,6 +380,7 @@ def agent_node(state: AgentState) -> dict:
     response = _normalize_tool_call(response)
     return {"messages": [response]}
 
+
 # --------------------------------------------------
 # Router
 # --------------------------------------------------
@@ -225,6 +389,7 @@ def should_continue(state: AgentState) -> str:
     if isinstance(last_message, AIMessage) and last_message.tool_calls:
         return "tools"
     return END
+
 
 # --------------------------------------------------
 # Fallback: parse printed tool call JSON (if model doesn't emit tool_calls)
@@ -257,6 +422,7 @@ def _normalize_tool_call(message: AIMessage) -> AIMessage:
 
     return message
 
+
 # --------------------------------------------------
 # Build Graph
 # --------------------------------------------------
@@ -275,42 +441,65 @@ workflow.add_edge("tools", "agent")
 
 graph = workflow.compile()
 
+
 # --------------------------------------------------
 # Run (CLI interface)
 # --------------------------------------------------
 if __name__ == "__main__":
-    print("\n🧠 Agentic RAG Ready (type 'exit', 'quit' or 'q' to quit)\n")
+    print("\nAgentic RAG Ready (type 'exit', 'quit' or 'q' to quit)\n")
 
     system_prompt = SystemMessage(content="""
 You are a professional research assistant with access to a specific document collection.
 
 Rules you MUST follow:
 - Use the rag_search tool for every factual question or when you need information
-- Base your answer ONLY on the retrieved context — never hallucinate or use outside knowledge
+- Base your answer ONLY on the retrieved context - never hallucinate or use outside knowledge
 - Use clear bullet points when appropriate
 - Always include clear citations to sources and chunk ids
 - If the retrieved documents do not contain the answer, reply only: "I don't have sufficient information from the provided documents to answer this."
 - Be concise and accurate
 """)
 
+    DIRECT_PIPELINE = USE_QUANTIZED_LLM
+
     while True:
-        query = input("👤 You: ").strip()
+        query = input("You: ").strip()
         if query.lower() in ["exit", "quit", "q"]:
             print("Goodbye!")
             break
 
-        initial_state = {
-            "messages": [
-                system_prompt,
-                HumanMessage(content=query),
-            ]
-        }
+        if DIRECT_PIPELINE:
+            try:
+                context = rag_search(query)
+                prompt = (
+                    "Answer the question using ONLY the context below. "
+                    "Always include citations with [Source: ... | chunk ... | store ...].\n\n"
+                    f"Question: {query}\n\n"
+                    f"Context:\n{context}\n"
+                )
+                if hasattr(answer_llm, "invoke"):
+                    answer = answer_llm.invoke(prompt)
+                    content = answer if isinstance(answer, str) else getattr(answer, "content", str(answer))
+                else:
+                    content = str(answer_llm(prompt))
+                print("\nAnswer:\n")
+                print(content)
+                print("\n" + "=" * 70 + "\n")
+            except Exception as e:
+                print(f"\nError during execution: {e}\n")
+        else:
+            initial_state = {
+                "messages": [
+                    system_prompt,
+                    HumanMessage(content=query),
+                ]
+            }
 
-        try:
-            result = graph.invoke(initial_state)
-            final_message = result["messages"][-1]
-            print("\n🤖 Answer:\n")
-            print(final_message.content)
-            print("\n" + "═" * 70 + "\n")
-        except Exception as e:
-            print(f"\nError during execution: {e}\n")
+            try:
+                result = graph.invoke(initial_state)
+                final_message = result["messages"][-1]
+                print("\nAnswer:\n")
+                print(final_message.content)
+                print("\n" + "=" * 70 + "\n")
+            except Exception as e:
+                print(f"\nError during execution: {e}\n")
