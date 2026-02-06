@@ -1,21 +1,20 @@
 """
 Agentic RAG Workflow with:
 - FAISS retrieval
-- LLM re-ranking -> now replaced with Cross-Encoder (faster)
+- LLM re-ranking replaced with Cross-Encoder (or embedding similarity fallback)a
 - Hybrid retrieval (vector + BM25)
 - Proper citations (file + chunk_id)
 """
 
 import os
 import json
+from collections import defaultdict
 from pathlib import Path
 from typing import TypedDict, List, Annotated, Dict, Tuple
-
 import numpy as np
 import faiss
 from dotenv import load_dotenv
-
-from langchain_core.messages import BaseMessage, HumanMessage, SystemMessage, AIMessage
+from langchain_core.messages import BaseMessage, HumanMessage, SystemMessage, AIMessage, ToolMessage
 from langchain_core.documents import Document
 from langchain_core.tools import tool
 from langchain_openai import AzureChatOpenAI
@@ -267,6 +266,52 @@ def rerank(question: str, chunks: List[dict], keep_top: int = 6):
     return reranked
 
 
+def generate_query_variants(question: str, llm, n: int = 5) -> List[str]:
+    """
+    RAG Fusion: generate multiple alternative queries for the same intent.
+    """
+    prompt = f"""Generate {n} different search queries that express the same intent
+    as the question below. Keep them short and retrieval-focused.
+
+    Question: {question}
+    """
+
+    resp = llm.invoke(prompt)
+    lines = [
+        l.strip("- ").strip()
+        for l in resp.content.split("\n")
+        if l.strip()
+    ]
+
+    # Always include original question
+    return list(dict.fromkeys([question] + lines))
+
+
+def reciprocal_rank_fusion(results: List[dict], k: int = 60) -> List[dict]:
+    """
+    Merge ranked results from multiple queries using RRF.
+    """
+    scores = defaultdict(float)
+    doc_map = {}
+
+    for r in results:
+        # unique identity of a chunk across stores & queries
+        doc_id = (
+            r.get("store"),
+            r.get("source"),
+            r.get("chunk_id"),
+        )
+
+        rank = r.get("rank", 1000)
+        scores[doc_id] += 1.0 / (rank + k)
+
+        # Keep latest copy (text/metadata identical anyway)
+        doc_map[doc_id] = r
+
+    ranked = sorted(scores.items(), key=lambda x: x[1], reverse=True)
+    return [doc_map[doc_id] for doc_id, _ in ranked]
+
+
 def long_context_reorder(chunks: List[dict]) -> List[dict]:
     """
     Place the most relevant chunks at the beginning and end to reduce
@@ -324,32 +369,71 @@ def compress_chunks(question: str, chunks: List[dict], max_sentences_per_chunk: 
     return compressed
 
 
+def _run_retriever(retriever: BaseRetriever, query: str) -> List[Document]:
+    """
+    Compatibility wrapper across LangChain versions.
+    """
+    if hasattr(retriever, "get_relevant_documents"):
+        return retriever.get_relevant_documents(query)
+    return retriever.invoke(query)
+
+
 # --------------------------------------------------
 # TOOL: Agentic RAG Search with Hybrid + Cross-Encoder
 # --------------------------------------------------
 @tool
 def rag_search(question: str) -> str:
     """
-    Multi-store retrieval -> Merger -> Re-rank -> Long-context reorder -> Compression.
+    RAG Fusion + Multi-store Hybrid Retrieval + RRF
+    -> Cross-Encoder -> Reorder -> Compression
     """
-    merger = get_merger_retriever()
-    docs = merger.invoke(question)
+    # 1. Generate query variants (RAG Fusion)
+    query_variants = generate_query_variants(question, llm)
 
-    chunks = [
-        {
-            "text": d.page_content,
-            "source": d.metadata["source"],
-            "chunk_id": d.metadata["chunk_id"],
-            "distance": d.metadata.get("distance", 0.0)  # may not always exist from BM25
-        }
-        for d in docs
-    ]
+    # 2. Prepare per-store hybrid retrievers
+    retrievers = [get_hybrid_retriever(name) for name in STORES.keys()]
 
-    if not chunks:
+    all_ranked_results = []
+
+    # 3. Run retrieval for EACH query variant
+    for q in query_variants:
+        for store_name, retriever in zip(STORES.keys(), retrievers):
+            docs = _run_retriever(retriever, q)
+
+            # Fallback: if hybrid returns nothing, use direct vector retrieval
+            if not docs:
+                store = STORES[store_name]
+                vec_results = retrieve(q, store["index"], store["chunks"], store["metas"], top_k=10)
+                for r in vec_results:
+                    all_ranked_results.append({
+                        "rank": r.get("rank", 1000),
+                        "text": r["text"],
+                        "source": r["source"],
+                        "chunk_id": r["chunk_id"],
+                        "store": r.get("store", store_name),
+                    })
+                continue
+
+            for rank, d in enumerate(docs, start=1):
+                meta = d.metadata
+                all_ranked_results.append({
+                    "rank": rank,
+                    "text": d.page_content,
+                    "source": meta["source"],
+                    "chunk_id": meta["chunk_id"],
+                    "store": meta.get("store", store_name),
+                })
+
+    if not all_ranked_results:
         return "NO RELEVANT DOCUMENTS FOUND."
 
-    # Rerank with Cross-Encoder
-    top = rerank(question, chunks)
+    # 4. RRF merge
+    rrf_ranked = reciprocal_rank_fusion(all_ranked_results)
+
+    # 5. Cross-Encoder re-ranking
+    top = rerank(question, rrf_ranked)
+
+    # 6. Context ordering + compression
     reordered = long_context_reorder(top)
     compressed = compress_chunks(question, reordered)
 
@@ -374,7 +458,17 @@ class AgentState(TypedDict):
 # Agent Node
 # --------------------------------------------------
 def agent_node(state: AgentState) -> dict:
-    llm_with_tools = llm.bind_tools([rag_search])
+    last_message = state["messages"][-1] if state["messages"] else None
+
+    if isinstance(last_message, ToolMessage):
+        # We already have tool output; now let the model answer.
+        llm_with_tools = llm.bind_tools([rag_search])
+    else:
+        # Force tool call for new user questions.
+        try:
+            llm_with_tools = llm.bind_tools([rag_search], tool_choice="rag_search")
+        except TypeError:
+            llm_with_tools = llm.bind_tools([rag_search])
 
     response: AIMessage = llm_with_tools.invoke(state["messages"])
     response = _normalize_tool_call(response)
