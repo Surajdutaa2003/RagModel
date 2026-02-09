@@ -44,12 +44,37 @@ try:
     from langchain_community.llms import LlamaCpp
 except Exception:
     LlamaCpp = None
-try:
-    from sentence_transformers import CrossEncoder
-    # Cross-Encoder for reranking (fast & accurate)
-    cross_encoder = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
-except Exception:
-    cross_encoder = None
+
+# FlashRank imports (added for replacement)
+from langchain_community.document_compressors import FlashrankRerank
+
+_FLASHRANK_READY = False
+
+
+def _ensure_flashrank_ready() -> bool:
+    """
+    Ensure FlashRank Pydantic v2 models are fully defined.
+    Returns True if ready, False otherwise.
+    """
+    global _FLASHRANK_READY
+    if _FLASHRANK_READY:
+        return True
+    try:
+        # Fix for Pydantic v2 "class-not-fully-defined" when Ranker isn't loaded
+        from flashrank import Ranker  # type: ignore  # noqa: F401
+        FlashrankRerank.model_rebuild()
+        _FLASHRANK_READY = True
+        return True
+    except Exception:
+        return False
+
+# Remove sentence-transformers CrossEncoder (replaced by FlashRank)
+# try:
+#     from sentence_transformers import CrossEncoder
+#     # Cross-Encoder for reranking (fast & accurate)
+#     cross_encoder = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
+# except Exception:
+#     cross_encoder = None
 
 # --------------------------------------------------
 # Load env
@@ -238,16 +263,55 @@ def get_merger_retriever():
 
 
 # --------------------------------------------------
-# Re-ranking with Cross-Encoder (or embeddings fallback)
+# Re-ranking with FlashRank (replaces CrossEncoder; using Large model: ms-marco-MultiBERT-L-12)
 # --------------------------------------------------
 def rerank(question: str, chunks: List[dict], keep_top: int = 6):
     if not chunks:
         return []
 
-    if cross_encoder is not None:
-        pairs = [[question, c["text"]] for c in chunks]
-        scores = cross_encoder.predict(pairs)
-    else:
+    try:
+        if not _ensure_flashrank_ready():
+            raise RuntimeError("FlashRank is not available; install 'flashrank' to enable reranking")
+        # Use FlashRank with largest available model (~4GB, listwise)
+        reranker = FlashrankRerank(
+            model="rank_zephyr_7b_v1_full",  # Largest model available
+            top_n=keep_top
+        )
+
+        # Convert chunks to LangChain Documents
+        langchain_docs = [
+            Document(
+                page_content=c["text"],
+                metadata={
+                    "source": c["source"],
+                    "chunk_id": c["chunk_id"],
+                    "store": c.get("store", "default"),
+                    "score": 0.0  # placeholder
+                }
+            ) for c in chunks
+        ]
+
+        # Rerank and compress
+        compressed_docs = reranker.compress_documents(
+            documents=langchain_docs,
+            query=question
+        )
+
+        # Convert back to dict format
+        reranked = []
+        for doc in compressed_docs:
+            reranked.append({
+                "text": doc.page_content,
+                "source": doc.metadata["source"],
+                "chunk_id": doc.metadata["chunk_id"],
+                "store": doc.metadata.get("store", "default"),
+                "score": doc.metadata.get("relevance_score", 0.0)
+            })
+
+        return reranked
+
+    except Exception as e:
+        print(f"FlashRank failed: {e} -> using embedding similarity fallback")
         # Fallback: use embedding cosine similarity between question and each chunk
         q_emb = np.array(embeddings.embed_query(question)).astype("float32")
         docs_emb = np.array(embeddings.embed_documents([c["text"] for c in chunks])).astype("float32")
@@ -256,14 +320,14 @@ def rerank(question: str, chunks: List[dict], keep_top: int = 6):
         d_norm = docs_emb / (np.linalg.norm(docs_emb, axis=1, keepdims=True) + 1e-12)
         scores = (d_norm @ q_norm).tolist()
 
-    # Sort by score descending
-    sorted_pairs = sorted(zip(scores, chunks), key=lambda x: x[0], reverse=True)
-    reranked = []
-    for score, chunk in sorted_pairs[:keep_top]:
-        enriched = dict(chunk)
-        enriched["score"] = float(score)
-        reranked.append(enriched)
-    return reranked
+        # Sort by score descending
+        sorted_pairs = sorted(zip(scores, chunks), key=lambda x: x[0], reverse=True)
+        reranked = []
+        for score, chunk in sorted_pairs[:keep_top]:
+            enriched = dict(chunk)
+            enriched["score"] = float(score)
+            reranked.append(enriched)
+        return reranked
 
 
 def generate_query_variants(question: str, llm, n: int = 5) -> List[str]:
@@ -379,13 +443,13 @@ def _run_retriever(retriever: BaseRetriever, query: str) -> List[Document]:
 
 
 # --------------------------------------------------
-# TOOL: Agentic RAG Search with Hybrid + Cross-Encoder
+# TOOL: Agentic RAG Search with Hybrid + FlashRank (Large model)
 # --------------------------------------------------
 @tool
 def rag_search(question: str) -> str:
     """
     RAG Fusion + Multi-store Hybrid Retrieval + RRF
-    -> Cross-Encoder -> Reorder -> Compression
+    -> FlashRank (Large) -> Reorder -> Compression
     """
     # 1. Generate query variants (RAG Fusion)
     query_variants = generate_query_variants(question, llm)
@@ -430,7 +494,7 @@ def rag_search(question: str) -> str:
     # 4. RRF merge
     rrf_ranked = reciprocal_rank_fusion(all_ranked_results)
 
-    # 5. Cross-Encoder re-ranking
+    # 5. FlashRank re-ranking (Large model)
     top = rerank(question, rrf_ranked)
 
     # 6. Context ordering + compression
