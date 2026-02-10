@@ -1,7 +1,3 @@
-Here is the **complete, self-contained README.md** file for your project — ready to copy-paste into the root of `RagFromScratch`.
-
-```markdown
-# RagFromScratch
 
 Advanced **Agentic Retrieval-Augmented Generation (RAG)** pipeline built from scratch.
 
