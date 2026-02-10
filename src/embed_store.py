@@ -39,6 +39,7 @@ JINA_ENDPOINT = os.getenv(
 STORE_DIR = BASE_DIR / "vector_store"
 STORE_DIR.mkdir(exist_ok=True)
 DATA_DIR = BASE_DIR / "data"
+MOVIES_METADATA_PATH = DATA_DIR / "movies_metadata.json"
 
 # -----------------------------
 # Chunking (recursive)
@@ -111,8 +112,10 @@ def build_vector_store():
     # Create sub-folders for each store
     company_dir = STORE_DIR / "company_store"
     technical_dir = STORE_DIR / "technical_store"
+    movies_dir = STORE_DIR / "movies"
     company_dir.mkdir(exist_ok=True)
     technical_dir.mkdir(exist_ok=True)
+    movies_dir.mkdir(exist_ok=True)
 
     # Company store files
     company_index_path = company_dir / "faiss.index"
@@ -121,6 +124,10 @@ def build_vector_store():
     # Technical store files
     technical_index_path = technical_dir / "faiss.index"
     technical_meta_path = technical_dir / "meta.json"
+
+    # Movies store files
+    movies_index_path = movies_dir / "faiss.index"
+    movies_meta_path = movies_dir / "meta.json"
 
     # Load all files
     docs = list(DATA_DIR.glob("*.txt")) + list(DATA_DIR.glob("*.pdf"))
@@ -187,7 +194,58 @@ def build_vector_store():
         )
         print(f"💾 Saved technical store: {technical_index_path}")
 
+    # Build movies store from metadata JSON (if provided)
+    build_movies_store()
+
     print("\n🎉 Multiple vector stores build complete!")
+
+# -----------------------------
+# Movies Store (from metadata JSON)
+# -----------------------------
+def build_movies_store():
+    if not MOVIES_METADATA_PATH.exists():
+        return
+
+    raw = json.loads(MOVIES_METADATA_PATH.read_text(encoding="utf-8-sig"))
+    if not isinstance(raw, list) or not raw:
+        return
+
+    movies_dir = STORE_DIR / "movies"
+    movies_dir.mkdir(exist_ok=True)
+    movies_index_path = movies_dir / "faiss.index"
+    movies_meta_path = movies_dir / "meta.json"
+
+    movies_chunks = []
+    movies_metas = []
+    for i, item in enumerate(raw):
+        if not isinstance(item, dict):
+            continue
+        text = item.get("page_content")
+        meta = item.get("metadata") or {}
+        if not isinstance(text, str) or not text.strip():
+            continue
+        if not isinstance(meta, dict):
+            meta = {}
+        meta = dict(meta)
+        meta["source"] = MOVIES_METADATA_PATH.name
+        meta["chunk_id"] = i
+        movies_chunks.append(text)
+        movies_metas.append(meta)
+
+    if not movies_chunks:
+        return
+
+    movies_vectors = np.array(get_embeddings(movies_chunks)).astype("float32")
+    movies_dim = movies_vectors.shape[1]
+    movies_index = faiss.IndexFlatL2(movies_dim)
+    movies_index.add(movies_vectors)
+    faiss.write_index(movies_index, str(movies_index_path))
+    meta_movies = {"chunks": movies_chunks, "metas": movies_metas}
+    movies_meta_path.write_text(
+        json.dumps(meta_movies, indent=2, ensure_ascii=False),
+        encoding="utf-8"
+    )
+    print(f"ðŸ’¾ Saved movies store: {movies_index_path}")
 
 # -----------------------------
 # Entry

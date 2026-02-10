@@ -21,6 +21,7 @@ from langchain_openai import AzureChatOpenAI
 from langchain_community.embeddings import JinaEmbeddings
 from langchain_community.retrievers.bm25 import BM25Retriever
 from langchain_core.retrievers import BaseRetriever
+import re
 try:
     # Pydantic v2
     from pydantic import ConfigDict
@@ -86,6 +87,7 @@ load_dotenv(BASE_DIR / ".env")
 # Paths
 # --------------------------------------------------
 VECTOR_STORE_DIR = BASE_DIR / "vector_store"
+MOVIES_METADATA_PATH = BASE_DIR / "data" / "movies_metadata.json"
 
 # --------------------------------------------------
 # Models
@@ -140,11 +142,57 @@ def load_vector_store(store_dir: Path) -> Tuple[faiss.Index, List[str], List[dic
     return index, meta["chunks"], meta["metas"]
 
 
+def _build_movies_store(store_dir: Path) -> None:
+    """
+    Build a FAISS vector store from data/movies_metadata.json.
+    """
+    if not MOVIES_METADATA_PATH.exists():
+        return
+
+    raw = json.loads(MOVIES_METADATA_PATH.read_text(encoding="utf-8"))
+    if not isinstance(raw, list) or not raw:
+        return
+
+    chunks: List[str] = []
+    metas: List[dict] = []
+    for i, item in enumerate(raw):
+        if not isinstance(item, dict):
+            continue
+        text = item.get("page_content")
+        meta = item.get("metadata") or {}
+        if not isinstance(text, str) or not text.strip():
+            continue
+        if not isinstance(meta, dict):
+            meta = {}
+        meta = dict(meta)
+        meta["source"] = "movies_metadata.json"
+        meta["chunk_id"] = i
+        chunks.append(text)
+        metas.append(meta)
+
+    if not chunks:
+        return
+
+    vectors = np.array(embeddings.embed_documents(chunks)).astype("float32")
+    index = faiss.IndexFlatL2(vectors.shape[1])
+    index.add(vectors)
+
+    store_dir.mkdir(parents=True, exist_ok=True)
+    faiss.write_index(index, str(store_dir / "faiss.index"))
+    meta_payload = {"chunks": chunks, "metas": metas}
+    (store_dir / "meta.json").write_text(json.dumps(meta_payload), encoding="utf-8")
+
+
 STORE_DIRS = _discover_store_dirs()
 if not STORE_DIRS:
-    raise FileNotFoundError(
-        "No vector stores found. Expected vector_store/<store>/faiss.index and meta.json"
-    )
+    # Auto-build movies store if present
+    movies_store_dir = VECTOR_STORE_DIR / "movies"
+    _build_movies_store(movies_store_dir)
+    STORE_DIRS = _discover_store_dirs()
+    if not STORE_DIRS:
+        raise FileNotFoundError(
+            "No vector stores found. Expected vector_store/<store>/faiss.index and meta.json"
+        )
 
 STORES: Dict[str, Dict[str, object]] = {}
 for store_dir in STORE_DIRS:
@@ -183,6 +231,93 @@ def retrieve(question: str, index, chunks, metas, top_k: int = 10):
             "distance": float(distances[0][rank - 1]),
         })
     return results
+
+
+# --------------------------------------------------
+# Self-Query (LLM -> metadata filters)
+# --------------------------------------------------
+def _extract_json_block(text: str) -> str:
+    if not text:
+        return ""
+    text = text.strip()
+    if text.startswith("{") and text.endswith("}"):
+        return text
+    match = re.search(r"\{.*\}", text, re.DOTALL)
+    return match.group(0) if match else ""
+
+
+def self_query_parse(question: str, llm) -> Tuple[str, Dict[str, object]]:
+    """
+    Use LLM to convert question into a retrieval query + optional metadata filters.
+    Returns (query, filters).
+    """
+    prompt = f"""You are a retrieval planner. Convert the user question into:
+1) a concise retrieval query
+2) optional metadata filters over fields: store, source, chunk_id
+
+Return ONLY valid JSON with this schema:
+{{
+  "query": "string",
+  "filters": {{
+    "store": "string or null",
+    "source": "string or null",
+    "chunk_id": "int or null"
+  }}
+}}
+
+Question: {question}
+"""
+    try:
+        resp = llm.invoke(prompt)
+        raw = getattr(resp, "content", "") or ""
+        json_block = _extract_json_block(raw)
+        if not json_block:
+            return question, {}
+        data = json.loads(json_block)
+        query = data.get("query") or question
+        filters = data.get("filters") or {}
+        # normalize
+        norm_filters = {}
+        if isinstance(filters, dict):
+            store = filters.get("store")
+            source = filters.get("source")
+            chunk_id = filters.get("chunk_id")
+            if isinstance(store, str) and store.strip():
+                norm_filters["store"] = store.strip()
+            if isinstance(source, str) and source.strip():
+                norm_filters["source"] = source.strip()
+            if isinstance(chunk_id, int):
+                norm_filters["chunk_id"] = chunk_id
+            else:
+                # allow numeric strings
+                if isinstance(chunk_id, str) and chunk_id.strip().isdigit():
+                    norm_filters["chunk_id"] = int(chunk_id.strip())
+        return query, norm_filters
+    except Exception:
+        return question, {}
+
+
+def _match_filters(meta: dict, filters: Dict[str, object]) -> bool:
+    if not filters:
+        return True
+    store = filters.get("store")
+    source = filters.get("source")
+    chunk_id = filters.get("chunk_id")
+
+    if store:
+        if str(meta.get("store", "")).strip() != str(store).strip():
+            return False
+    if source:
+        src = str(meta.get("source", "")).lower()
+        if str(source).lower() not in src:
+            return False
+    if chunk_id is not None:
+        try:
+            if int(meta.get("chunk_id")) != int(chunk_id):
+                return False
+        except Exception:
+            return False
+    return True
 
 
 # --------------------------------------------------
@@ -451,24 +586,33 @@ def rag_search(question: str) -> str:
     RAG Fusion + Multi-store Hybrid Retrieval + RRF
     -> FlashRank (Large) -> Reorder -> Compression
     """
+    # 0. Self-query: derive filters + refined query
+    base_query, filters = self_query_parse(question, llm)
+
     # 1. Generate query variants (RAG Fusion)
-    query_variants = generate_query_variants(question, llm)
+    query_variants = generate_query_variants(base_query, llm)
 
     # 2. Prepare per-store hybrid retrievers
-    retrievers = [get_hybrid_retriever(name) for name in STORES.keys()]
+    if filters.get("store") and filters["store"] in STORES:
+        store_names = [filters["store"]]
+    else:
+        store_names = list(STORES.keys())
+    retrievers = [get_hybrid_retriever(name) for name in store_names]
 
     all_ranked_results = []
 
     # 3. Run retrieval for EACH query variant
     for q in query_variants:
-        for store_name, retriever in zip(STORES.keys(), retrievers):
+        for store_name, retriever in zip(store_names, retrievers):
             docs = _run_retriever(retriever, q)
 
             # Fallback: if hybrid returns nothing, use direct vector retrieval
             if not docs:
                 store = STORES[store_name]
-                vec_results = retrieve(q, store["index"], store["chunks"], store["metas"], top_k=10)
+                vec_results = retrieve(q, store["index"], store["chunks"], store["metas"], top_k=30)
                 for r in vec_results:
+                    if not _match_filters(r, filters):
+                        continue
                     all_ranked_results.append({
                         "rank": r.get("rank", 1000),
                         "text": r["text"],
@@ -480,6 +624,8 @@ def rag_search(question: str) -> str:
 
             for rank, d in enumerate(docs, start=1):
                 meta = d.metadata
+                if not _match_filters(meta, filters):
+                    continue
                 all_ranked_results.append({
                     "rank": rank,
                     "text": d.page_content,
